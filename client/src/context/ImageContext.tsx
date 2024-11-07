@@ -5,7 +5,7 @@ import {Transformation} from "../entities";
 
 
 type ImageServiceApi = {
-    uploadImage: (file: File) => Promise<void>;
+    uploadImage: (blob: Blob) => Promise<void>;
     applyTransformation: (transformation: Transformation) => void
     catchError: (error: unknown) => void;
     showError: (message: string) => void;

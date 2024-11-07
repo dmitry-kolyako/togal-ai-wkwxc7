@@ -1,31 +1,36 @@
 import {useImageContext} from "./useImageContext.ts";
 import {useCallback} from "react";
 import {ImageActionType} from "../state/state.ts";
-import {Transformation} from "../entities";
+import {ImageModel, Transformation} from "../entities";
 
 export const useImageControls = () => {
-    const {dispatch, state: { transformedImage }} = useImageContext();
+    const {
+        dispatch,
+        state: {transformedImage, selectedImage, transformationHistory}
+    } = useImageContext();
 
-    const selectTransformedImage = useCallback((selectedImage: File | null) => {
-        dispatch({type: ImageActionType.SET_TRANSFORMED_IMAGE, payload: selectedImage});
 
+    const setTransformedImage = useCallback((payload: Blob | null) => {
+        dispatch({type: ImageActionType.SET_TRANSFORMED_IMAGE, payload});
     }, [dispatch])
 
-    const addTransformation = (transformation: Transformation) => {
-        // handle transformation, update image transformed, track history
-        // dispatch({type: ImageActionType.SET_TRANSFORMED, payload: type});
-        dispatch({type: ImageActionType.ADD_TRANSFORMATION, payload: transformation});
-    };
+    const selectImage = useCallback((payload: ImageModel | null) => {
+        dispatch({type: ImageActionType.SELECT_IMAGE, payload});
+    }, [dispatch])
 
-    const resetTransformations = () => {
-        // handle transformation, update image transformed, track history
-        // dispatch({type: ImageActionType.SET_TRANSFORMED, payload: type});
-        dispatch({type: ImageActionType.RESET_TRANSFORMATIONS });
-    };
+    const addTransformation = useCallback((payload: Transformation) => {
+        dispatch({type: ImageActionType.ADD_TRANSFORMATION, payload});
+    }, [dispatch])
+
+    const resetTransformations = useCallback(() => {
+        dispatch({type: ImageActionType.RESET_TRANSFORMATIONS});
+    }, [dispatch])
 
     return {
         dispatch,
-        transformedImage, selectTransformedImage,
+        selectImage, selectedImage,
+        transformedImage, setTransformedImage,
+        transformationHistory,
         addTransformation, resetTransformations
     }
 

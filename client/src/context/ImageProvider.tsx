@@ -1,4 +1,4 @@
-import {FC, PropsWithChildren, useReducer} from "react";
+import {FC, PropsWithChildren, useCallback, useReducer} from "react";
 import {ImageContext} from "./ImageContext";
 import {ImageActionType, imageReducer, ImageState, initialState} from "../state/state.ts";
 import {Transformation} from "../entities";
@@ -11,34 +11,36 @@ export const ImageProvider: FC<PropsWithChildren> = ({children}) => {
         dispatch({type: ImageActionType.SET_LOADING, payload});
     }
 
-    const showError = (message: string) => {
+    const showError = useCallback((message: string) => {
         dispatch({type: ImageActionType.SET_ERROR, payload: message});
-    }
+    }, [dispatch])
 
     const clearError = () => {
         dispatch({type: ImageActionType.SET_ERROR, payload: null});
     }
 
-    const catchError = (error: unknown) => {
+    const catchError = useCallback((error: unknown) => {
         if (error instanceof Error) showError(error.message);
-    }
+    }, [showError])
 
-    const uploadImage = async (file: File) => {
+    const uploadImage = useCallback(async (blob: Blob) => {
         try {
             // Simulate an image upload process (e.g., API call)
-            if (!file) throw new Error('No file provided');
+            if (!blob) throw new Error('No file provided');
 
             // Simulate successful upload logic here
-            const uploadedImage = {id: '1', url: URL.createObjectURL(file), file}; // Example uploaded image
+            const id = (new Date()).toISOString();
+            const uploadedImage = {id, url: '', blob}; // Example uploaded image
 
             // If successful, update the gallery
             dispatch({type: ImageActionType.ADD_TO_GALLERY, payload: uploadedImage});
+            dispatch({type: ImageActionType.SELECT_IMAGE, payload: null});
 
         } catch (error) {
             catchError(error)
 
         }
-    };
+    }, [dispatch, catchError])
 
     // Another example function (applying transformation)
     const applyTransformation = (transformation: Transformation) => {

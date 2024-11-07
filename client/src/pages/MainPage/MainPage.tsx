@@ -1,28 +1,45 @@
-import {Container, ControlsSection, DisplaySection, Header, Main, UploadSection} from "./MainPage.components.tsx";
-import {Controls, ImageDisplay, ImageUpload} from '../../components';
+import {
+    ControlsSection,
+    DisplaySection,
+    GallerySection,
+    HistorySection,
+    PageHeader,
+    PageMain,
+    UploadSection
+} from "./MainPage.components.tsx";
+import {TransformationControls, ImageDisplay, ImageUpload} from '../../components';
+import {TransformationHistory} from "../../components/TransformationHistory/TransformationHistory.tsx";
+import {ImageGallery} from "../../components/ImageGallery/ImageGallery.tsx";
+import {PageContainer} from "../../components/Shared/PageContainer.tsx";
 
 export const MainPage = () => {
-    // src/components/MainLayout/MainLayout.js
-
     return (
-        <Container>
-            <Header>
+        <PageContainer>
+            <PageHeader>
                 <h1>Image Uploader & Editor</h1>
-            </Header>
+            </PageHeader>
 
-            <Main>
+            <PageMain>
                 <UploadSection>
                     <ImageUpload/>
                 </UploadSection>
+
+                <ControlsSection>
+                    <TransformationControls/>
+                </ControlsSection>
 
                 <DisplaySection>
                     <ImageDisplay/>
                 </DisplaySection>
 
-                <ControlsSection>
-                    <Controls/>
-                </ControlsSection>
-            </Main>
-        </Container>
+                <HistorySection>
+                    <TransformationHistory/>
+                </HistorySection>
+
+                <GallerySection>
+                    <ImageGallery/>
+                </GallerySection>
+            </PageMain>
+        </PageContainer>
     );
 };
