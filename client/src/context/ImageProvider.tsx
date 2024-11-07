@@ -29,10 +29,11 @@ export const ImageProvider: FC<PropsWithChildren> = ({children}) => {
             if (!file) throw new Error('No file provided');
 
             // Simulate successful upload logic here
-            const uploadedImage = {id: '1', url: URL.createObjectURL(file)}; // Example uploaded image
+            const uploadedImage = {id: '1', url: URL.createObjectURL(file), file}; // Example uploaded image
 
             // If successful, update the gallery
-            dispatch({type: ImageActionType.SET_GALLERY, payload: [uploadedImage]});
+            dispatch({type: ImageActionType.ADD_TO_GALLERY, payload: uploadedImage});
+
         } catch (error) {
             catchError(error)
 
@@ -48,8 +49,6 @@ export const ImageProvider: FC<PropsWithChildren> = ({children}) => {
             // Apply transformation logic (just an example, could modify the image state)
             dispatch({type: ImageActionType.ADD_TRANSFORMATION, payload: transformation});
 
-            // Update transformed image (could be different logic based on transformation)
-            dispatch({type: ImageActionType.SET_TRANSFORMED_IMAGE, payload: state.selectedImage});
         } catch (error) {
             catchError(error)
 

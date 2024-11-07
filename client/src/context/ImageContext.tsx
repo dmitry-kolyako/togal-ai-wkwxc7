@@ -14,6 +14,7 @@ type ImageServiceApi = {
 
 type ImageContextType = {
     state: ImageState;
+    // actions: Record<string, ImageAction>;
     dispatch: React.Dispatch<ImageAction>;
     api: ImageServiceApi;
 };
@@ -31,6 +32,8 @@ export const ImageContext = createContext<ImageContextType>({
         },
         clearError: () => {
         },
-
     },
+    // actions: {
+    //
+    // }
 });

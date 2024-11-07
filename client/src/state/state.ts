@@ -3,7 +3,7 @@ import {AsyncType, Image, Transformation} from "../entities";
 export type ImageState = {
     gallery: Image[];
     selectedImage: Image | null;
-    transformedImage: Image | null;
+    transformedImage: File | null;
     transformationHistory: Transformation[];
     error: string | null;
     loading: AsyncType | null;
@@ -11,6 +11,7 @@ export type ImageState = {
 
 export enum ImageActionType {
     SET_GALLERY = 'SET_GALLERY',
+    ADD_TO_GALLERY = 'ADD_TO_GALLERY',
     SELECT_IMAGE = 'SELECT_IMAGE',
     SET_TRANSFORMED_IMAGE = 'SET_TRANSFORMED_IMAGE',
     ADD_TRANSFORMATION = 'ADD_TRANSFORMATION',
@@ -22,8 +23,9 @@ export enum ImageActionType {
 // Define the action types, including the new error action
 export type ImageAction =
     | { type: ImageActionType.SET_GALLERY; payload: Image[] }
+    | { type: ImageActionType.ADD_TO_GALLERY; payload: Image }
     | { type: ImageActionType.SELECT_IMAGE; payload: Image | null }
-    | { type: ImageActionType.SET_TRANSFORMED_IMAGE; payload: Image | null }
+    | { type: ImageActionType.SET_TRANSFORMED_IMAGE; payload: File | null }
     | { type: ImageActionType.ADD_TRANSFORMATION; payload: Transformation }
     | { type: ImageActionType.RESET_TRANSFORMATIONS }
     | { type: ImageActionType.SET_ERROR; payload: string | null }
@@ -44,8 +46,12 @@ export const imageReducer = (state: ImageState, action: ImageAction): ImageState
     switch (action.type) {
         case ImageActionType.SET_GALLERY:
             return { ...state, gallery: action.payload };
+        case ImageActionType.ADD_TO_GALLERY:
+            return { ...state, gallery: [
+                    ...state.gallery, action.payload
+                ] };
         case ImageActionType.SELECT_IMAGE:
-            return { ...state, selectedImage: action.payload, transformedImage: action.payload };
+            return { ...state, selectedImage: action.payload, transformedImage: action.payload?.file || null };
         case ImageActionType.SET_TRANSFORMED_IMAGE:
             return { ...state, transformedImage: action.payload };
         case ImageActionType.ADD_TRANSFORMATION:
@@ -54,7 +60,7 @@ export const imageReducer = (state: ImageState, action: ImageAction): ImageState
                 transformationHistory: [...state.transformationHistory, action.payload],
             };
         case ImageActionType.RESET_TRANSFORMATIONS:
-            return { ...state, transformedImage: state.selectedImage, transformationHistory: [] };
+            return { ...state, transformedImage: state.selectedImage?.file || null, transformationHistory: [] };
         case ImageActionType.SET_ERROR:
             return { ...state, error: action.payload }; // Update error state
         default:
