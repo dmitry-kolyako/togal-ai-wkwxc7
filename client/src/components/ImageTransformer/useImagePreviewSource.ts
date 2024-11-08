@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 
 export type TPreviewSource = {
-    url: string;
+    objectUrl: string;
+    filename: string;
     type: string;
 } | null;
 
@@ -9,28 +10,29 @@ export type TWithPreviewSource = {
     previewSource: TPreviewSource;
 }
 
-export const useImagePreviewSource = (imageBlob?: Blob): TWithPreviewSource => {
+export const useImagePreviewSource = (file: File): TWithPreviewSource => {
     const [previewSource, setPreviewSource] = useState<TPreviewSource>(null);
 
     useEffect(() => {
         setPreviewSource((source) => {
-            if (source?.url) {
-                URL.revokeObjectURL(source?.url);
+            if (source?.objectUrl) {
+                URL.revokeObjectURL(source?.objectUrl);
             }
 
-            return imageBlob ? {
-                url: URL.createObjectURL(imageBlob),
-                type: imageBlob.type
+            return file ? {
+                objectUrl: URL.createObjectURL(file),
+                filename: file.name,
+                type: file.type
             } : null;
         })
 
-    }, [imageBlob, setPreviewSource]);
+    }, [file, setPreviewSource]);
 
     // cleanup source
     useEffect(() => {
         return () => {
-            if (previewSource?.url) {
-                URL.revokeObjectURL(previewSource.url);
+            if (previewSource?.objectUrl) {
+                URL.revokeObjectURL(previewSource.objectUrl);
             }
         }
     }, [previewSource])

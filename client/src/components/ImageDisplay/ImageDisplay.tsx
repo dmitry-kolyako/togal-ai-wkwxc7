@@ -7,7 +7,7 @@ import {useMemo} from "react";
 
 export const ImageDisplay = () => {
     const {selectedImage, setTransformedImage, transformationHistory} = useImageControls()
-    const {previewSource} = useImagePreviewSource(selectedImage?.blob)
+    const {previewSource} = useImagePreviewSource(selectedImage?.file)
     const isReady = useMemo(() => Boolean(previewSource && selectedImage), [previewSource, selectedImage])
 
     return <div>

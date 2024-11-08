@@ -1,12 +1,12 @@
-import {AsyncType, ImageModel, Transformation} from "../entities";
+import {AsyncAction, AsyncStatus, ImageEntity, ImageModel, Transformation} from "../entities";
 
 export type ImageState = {
     gallery: ImageModel[];
-    selectedImage: ImageModel | null;
-    transformedImage: Blob | null;
+    selectedImage: ImageEntity | null;
+    transformedImage: File | null;
     transformationHistory: Transformation[];
     error: string | null;
-    loading: AsyncType | null;
+    loading: Record<string, AsyncStatus | null>;
 };
 
 export enum ImageActionType {
@@ -24,12 +24,12 @@ export enum ImageActionType {
 export type ImageAction =
     | { type: ImageActionType.SET_GALLERY; payload: ImageModel[] }
     | { type: ImageActionType.ADD_TO_GALLERY; payload: ImageModel }
-    | { type: ImageActionType.SELECT_IMAGE; payload: ImageModel | null }
-    | { type: ImageActionType.SET_TRANSFORMED_IMAGE; payload: Blob | null }
+    | { type: ImageActionType.SELECT_IMAGE; payload: ImageEntity | null }
+    | { type: ImageActionType.SET_TRANSFORMED_IMAGE; payload: File | null }
     | { type: ImageActionType.ADD_TRANSFORMATION; payload: Transformation }
     | { type: ImageActionType.RESET_TRANSFORMATIONS }
     | { type: ImageActionType.SET_ERROR; payload: string | null }
-    | { type: ImageActionType.SET_LOADING; payload: AsyncType | null }
+    | { type: ImageActionType.SET_LOADING; payload: AsyncAction }
     ;
 
 // Update the state to include an error field
@@ -38,32 +38,41 @@ export const initialState: ImageState = {
     selectedImage: null,
     transformedImage: null,
     transformationHistory: [],
-    error: null, // Initialize error state as null
-    loading: null, // Initialize error state as null
+    error: null,
+    loading: {},
 };
 
 export const imageReducer = (state: ImageState, action: ImageAction): ImageState => {
     switch (action.type) {
         case ImageActionType.SET_GALLERY:
-            return { ...state, gallery: action.payload };
+            return {...state, gallery: action.payload};
         case ImageActionType.ADD_TO_GALLERY:
-            return { ...state, gallery: [
+            return {
+                ...state, gallery: [
                     action.payload,
                     ...state.gallery,
-                ] };
+                ]
+            };
         case ImageActionType.SELECT_IMAGE:
-            return { ...state, selectedImage: action.payload };
+            return {...state, selectedImage: action.payload};
         case ImageActionType.SET_TRANSFORMED_IMAGE:
-            return { ...state, transformedImage: action.payload };
+            return {...state, transformedImage: action.payload};
         case ImageActionType.ADD_TRANSFORMATION:
             return {
                 ...state,
                 transformationHistory: [...state.transformationHistory, action.payload],
             };
         case ImageActionType.RESET_TRANSFORMATIONS:
-            return { ...state, transformationHistory: [] };
+            return {...state, transformationHistory: []};
         case ImageActionType.SET_ERROR:
-            return { ...state, error: action.payload }; // Update error state
+            return {...state, error: action.payload}; // Update error state
+        case ImageActionType.SET_LOADING:
+            return {
+                ...state, loading: {
+                    ...state.loading,
+                    [action.payload.action]: action.payload.status
+                }
+            }; // Update error state
         default:
             return state;
     }

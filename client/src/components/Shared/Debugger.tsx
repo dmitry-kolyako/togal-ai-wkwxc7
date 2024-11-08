@@ -8,7 +8,7 @@ const DebuggerContainer = styled.div`
 export const Debugger = ({...props}) => {
     return <DebuggerContainer>
         {
-            Object.entries(props).map(([key, value]) => (<div>
+            Object.entries(props).map(([key, value]) => (<div key={key}>
                 <div>{JSON.stringify({[key]: value})}</div>
             </div>))
         }

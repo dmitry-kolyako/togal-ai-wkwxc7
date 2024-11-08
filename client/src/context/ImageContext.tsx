@@ -1,20 +1,20 @@
 // Define the action types as an enum
 import React, {createContext} from 'react';
-import {ImageAction, ImageState, initialState} from "../state/state.ts";
 import {Transformation} from "../entities";
-
+import {ImageAction, ImageState, initialState} from "../state/state.ts";
 
 type ImageServiceApi = {
     uploadImage: (blob: Blob) => Promise<void>;
+    loadImages: () => Promise<void>;
     applyTransformation: (transformation: Transformation) => void
     catchError: (error: unknown) => void;
-    showError: (message: string) => void;
+    setError: (message: string) => void;
     clearError: () => void;
+    withLoading: (handlerKey: string) => <T>(handler: Promise<T>) => Promise<T>;
 }
 
 type ImageContextType = {
     state: ImageState;
-    // actions: Record<string, ImageAction>;
     dispatch: React.Dispatch<ImageAction>;
     api: ImageServiceApi;
 };
@@ -23,10 +23,12 @@ export const ImageContext = createContext<ImageContextType>({
     state: initialState,
     dispatch: () => null,
     api: {
+        withLoading: () => (handler) => handler,
         uploadImage: () => Promise.resolve(),
+        loadImages: () => Promise.resolve(),
         applyTransformation: () => {
         },
-        showError: () => {
+        setError: () => {
         },
         catchError: () => {
         },

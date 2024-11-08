@@ -1,40 +1,44 @@
-import {FC, useCallback, useMemo} from 'react';
-import {ImageModel} from "../../entities";
+import {FC, useCallback, useEffect, useMemo} from 'react';
 import {ImageCard} from "../ImageCard/ImageCard.tsx";
 import {GalleryContainer, GalleryList} from "./ImageGallery.compnents.tsx";
 import {useImageContext, useImageControls} from "../../hooks";
+import {ImageModel} from "../../../../shared/types/Image.ts";
+import {getFileFromUrl} from "../../utils/getFIleFromUrl.ts";
 
-// interface ImageGalleryProps {
-//     images: ImageModel[];
-//     imageSelected: ImageModel;
-//     onSelect: (image: ImageModel) => void;
-// }
 
 export const ImageGallery: FC = () => {
     const {
-        selectedImage, selectImage,
+        selectedImage, setSelectedImage,
     } = useImageControls()
 
     const {
-        state: {gallery},
+        state: {gallery}, api: {withLoading, loadImages}
     } = useImageContext()
+
+    useEffect(() => {
+        loadImages()
+    }, [loadImages]);
 
 
     const imageCards = useMemo(() => gallery.map(
         (image) => {
-            const imageUrl = image.url;
-            const imageBlob = image.blob;
             return {
                 ...image,
-                url: imageUrl || URL.createObjectURL(imageBlob),
             };
         }
     ), [gallery])
 
+    const trackImageLoading = useMemo(() => withLoading('getFileFromUrl'), [withLoading])
+
     const handleSelected = useCallback(
         (image: ImageModel) => () => {
-            selectImage(image)
-        }, [selectImage]
+            trackImageLoading(
+                getFileFromUrl(image)
+            ).then(file => (setSelectedImage({
+                ...image,
+                file
+            })))
+        }, [setSelectedImage, trackImageLoading]
     )
 
     return (

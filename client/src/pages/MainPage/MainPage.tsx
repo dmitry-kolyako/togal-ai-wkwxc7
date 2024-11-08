@@ -7,10 +7,12 @@ import {
     PageMain,
     UploadSection
 } from "./MainPage.components.tsx";
-import {TransformationControls, ImageDisplay, ImageUpload} from '../../components';
+import {ImageDisplay, ImageUpload, TransformationControls} from '../../components';
 import {TransformationHistory} from "../../components/TransformationHistory/TransformationHistory.tsx";
 import {ImageGallery} from "../../components/ImageGallery/ImageGallery.tsx";
 import {PageContainer} from "../../components/Shared/PageContainer.tsx";
+import {Debugger} from "../../components/Shared";
+import {useImageContext} from "../../hooks";
 
 export const MainPage = () => {
     return (
@@ -39,6 +41,14 @@ export const MainPage = () => {
                 <GallerySection>
                     <ImageGallery/>
                 </GallerySection>
+
+                <div>
+                    <div>
+                        <Debugger {...useImageContext().state} />
+
+                    </div>
+
+                </div>
             </PageMain>
         </PageContainer>
     );

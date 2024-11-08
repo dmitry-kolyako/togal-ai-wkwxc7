@@ -1,43 +1,32 @@
 import React, {useRef, useState} from 'react';
 import {useImageControls} from "../../hooks";
 import {Button, ErrorMessage} from "../Shared";
-import {DropArea, HiddenFileInput} from "./ImageUpload.components.tsx";
-import {AcceptedFiles} from "../../config/config.ts";
+import {HiddenFileInput} from "./ImageUpload.components.tsx";
+import {FileInputDropInput} from "../FileInputDrop/FileDropInput.tsx";
 
+import {AcceptedFileTypes} from "../../../../shared/config/api.config.ts";
+
+const AcceptedFileInput = AcceptedFileTypes.join(',');
 
 export const ImageUpload: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
-    const [isDragging, setIsDragging] = useState<boolean>(false);
+
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        setIsDragging(true);
-    };
-
-    const handleDragLeave = () => {
-        setIsDragging(false);
-    };
-
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        setIsDragging(false);
-        const droppedFile = event.dataTransfer.files[0];
-        handleFileSelect(droppedFile);
-    };
-
-    const {selectImage, selectedImage, resetTransformations, setTransformedImage} = useImageControls()
+    const {resetTransformations, setSelectedImage, selectedImage} = useImageControls()
 
     const handleFileSelect = (selectedFile: File | null) => {
-        if (selectedFile && (AcceptedFiles.includes(selectedFile.type.toLowerCase()))) {
-            selectImage({
-                id: '1',
-                url: `1`,
-                blob: selectedFile
+        const isAccepted = AcceptedFileTypes.includes(selectedFile.type.toLowerCase());
+        if (selectedFile && isAccepted) {
+            setSelectedImage({
+                id: null,
+                url: null,
+                filename: selectedFile.name,
+                file: selectedFile,
             });
             setError(null);
         } else {
-            selectImage(null);
+            setSelectedImage(null);
             setError('Please select a JPG or PNG image');
         }
     }
@@ -49,11 +38,17 @@ export const ImageUpload: React.FC = () => {
         event.target.value = '';
     };
 
+    const handleDrop = (file: File) => {
+        handleFileSelect(file)
+        resetTransformations()
+    };
+
     const handleReset = () => {
         handleFileSelect(null)
-        setTransformedImage(null)
+        setSelectedImage(null)
         resetTransformations()
         setError(null);
+
     };
 
     const handleDropAreaClick = () => {
@@ -62,20 +57,20 @@ export const ImageUpload: React.FC = () => {
         }
     };
 
+
     return (
         <div>
             <h2>Upload an Image</h2>
-            <DropArea
-                isDragging={isDragging}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
+            <FileInputDropInput
+                onFinish={handleDrop}
                 onClick={handleDropAreaClick}
             >
-                <HiddenFileInput type="file" accept={AcceptedFiles.join(',')} onChange={handleFileChange}
+                <HiddenFileInput type="file"
+                                 accept={AcceptedFileInput}
+                                 onChange={handleFileChange}
                                  ref={fileInputRef}/>
                 <p>Drag & drop an image here, or click to select one.</p>
-            </DropArea>
+            </FileInputDropInput>
             {error && <ErrorMessage>{error}</ErrorMessage>}
             {selectedImage && <Button onClick={handleReset}>
                 Clear

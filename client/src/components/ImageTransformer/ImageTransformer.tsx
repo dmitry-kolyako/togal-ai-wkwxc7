@@ -10,7 +10,7 @@ import {CanvasMaxSize} from "../../config/config.ts";
 type Props = {
     previewSource: TPreviewSource
     transformationHistory: Transformation[]
-    onFinishTransform: (blob: Blob) => void
+    onFinishTransform: (file: File) => void
 }
 
 
@@ -19,14 +19,14 @@ export const ImageTransformer: React.FC<Props> = ({previewSource, transformation
 
     useEffect(() => {
         if (!canvasRef.current) return;
-        if (!previewSource?.url) return;
+        if (!previewSource?.objectUrl) return;
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         const image = new Image();
-        image.src = previewSource.url;
+        image.src = previewSource.objectUrl;
         image.onload = () => {
             const defaultScale = Math.min(
                 1, CanvasMaxSize.width / image.width, CanvasMaxSize.height / image.height
@@ -68,11 +68,9 @@ export const ImageTransformer: React.FC<Props> = ({previewSource, transformation
                     w: Math.min(CanvasMaxSize.width, newSize.width),
                     h: Math.min(CanvasMaxSize.height, newSize.height),
                 }).then(
-                    blob => {
-                        if (blob) {
-                            onFinishTransform(blob)
-                        }
-                    }
+                    blob => onFinishTransform(new File([blob], previewSource.filename, {
+                        type: previewSource.type
+                    }))
                 )
             }
 

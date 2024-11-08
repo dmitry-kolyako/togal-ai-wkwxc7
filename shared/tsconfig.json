@@ -1,0 +1,13 @@
+// tsconfig.shared.json
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "composite": true,
+    "skipLibCheck": true
+  },
+  "include": ["./types"]
+}
