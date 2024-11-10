@@ -3,6 +3,7 @@ import {useCallback} from "react";
 import {ImageEntity} from "../entities";
 import {ImageActionType} from "../state";
 import {useImageServiceApi} from "./useImageServiceApi.ts";
+import {useImagePreviewSource} from "../components/ImageTransformer/useImagePreviewSource.ts";
 
 export const useImageControls = () => {
     const {
@@ -21,6 +22,8 @@ export const useImageControls = () => {
     const setSelectedImage = useCallback((payload: ImageEntity | null) => {
         dispatch({type: ImageActionType.SELECT_IMAGE, payload});
     }, [dispatch])
+
+    const {previewSource} = useImagePreviewSource(selectedImage?.file)
 
     const resetSelectedImage = useCallback(() => setSelectedImage(null), [setSelectedImage])
 
@@ -44,7 +47,9 @@ export const useImageControls = () => {
             handleSave, handleRemove,
             setSelectedImage, resetSelectedImage,
             setTransformedImage,
-        }, state: {
+        },
+        state: {
+            previewSource,
             selectedImage,
             transformedImage,
             selectedTransformation,

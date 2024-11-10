@@ -1,8 +1,9 @@
 import {MainPage} from "./pages/MainPage/MainPage.tsx";
 import {ApiConfig} from "../../shared/config/api.config.ts";
-import {ApiServiceV1} from "./services/ApiService.ts";
+
 import {ImageProvider} from "./context";
-import {LoadingOverlay} from "./components/LoadingOverlay/LoadingOverlay.tsx";
+import {ApiServiceV1} from "./services";
+import {LoadingOverlay} from "./components";
 
 const api = ApiServiceV1.getInstance(ApiConfig);
 

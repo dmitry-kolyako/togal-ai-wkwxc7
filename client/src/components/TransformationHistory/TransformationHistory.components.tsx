@@ -9,7 +9,7 @@ const HistoryContainer = styled(Container)`
 const HistoryList = styled.ul`
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 20px;
 `;
 
 const HistoryItem = styled.li.withConfig({

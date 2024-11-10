@@ -19,8 +19,8 @@ export const PageMain = styled.main`
 export const DisplaySection = styled(SectionCentered)`
     border: 1px solid #ddd;
     background-color: #fff;
+    padding: 20px 0;
 `
-export const ControlsSection = styled(SectionCentered)``
 export const UploadSection = styled(SectionCentered)``
 export const HistorySection = styled(SectionCentered)``
 export const GallerySection = styled(SectionCentered)``

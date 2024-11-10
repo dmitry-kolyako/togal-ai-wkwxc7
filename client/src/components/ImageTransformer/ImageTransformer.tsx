@@ -5,7 +5,7 @@ import {transformImage} from "../../utils/transformImage.ts";
 import {cutOutRectangleFromCanvasToBlob} from "../../utils/cutOutRectangleFromCanvas.ts";
 import {TransformerCanvas, TransformerCanvasContainer} from "./ImageTransformer.components.tsx";
 import {TPreviewSource} from "./useImagePreviewSource.ts";
-import {CanvasMaxSize} from "../../config/config.ts";
+import {CanvasSize} from "../../config/config.ts";
 
 type Props = {
     previewSource: TPreviewSource
@@ -29,11 +29,11 @@ export const ImageTransformer: React.FC<Props> = ({previewSource, transformation
         image.src = previewSource.objectUrl;
         image.onload = () => {
             const defaultScale = Math.min(
-                1, CanvasMaxSize.width / image.width, CanvasMaxSize.height / image.height
+                1, CanvasSize.width / image.width, CanvasSize.height / image.height
             )
 
-            canvas.width = CanvasMaxSize.width;
-            canvas.height = CanvasMaxSize.height;
+            canvas.width = CanvasSize.width;
+            canvas.height = CanvasSize.height;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -65,8 +65,8 @@ export const ImageTransformer: React.FC<Props> = ({previewSource, transformation
                 }, {
                     x: Math.max(0, (canvas.width - newSize.width) / 2),
                     y: Math.max(0, (canvas.height - newSize.height) / 2),
-                    w: Math.min(CanvasMaxSize.width, newSize.width),
-                    h: Math.min(CanvasMaxSize.height, newSize.height),
+                    w: Math.min(CanvasSize.width, newSize.width),
+                    h: Math.min(CanvasSize.height, newSize.height),
                 }).then(
                     blob => onFinishTransform(new File([blob], previewSource.filename, {
                         type: previewSource.type

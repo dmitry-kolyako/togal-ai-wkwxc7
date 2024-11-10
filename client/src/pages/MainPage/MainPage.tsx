@@ -1,5 +1,4 @@
 import {
-    ControlsSection,
     DisplaySection,
     GallerySection,
     HistorySection,
@@ -7,13 +6,7 @@ import {
     PageMain,
     UploadSection
 } from "./MainPage.components.tsx";
-import {
-    ImageDisplay, ImageGallery,
-    ImageInput,
-    PageContainer,
-    TransformationControls,
-    TransformationHistory
-} from '../../components';
+import {ImageEditor, ImageGallery, ImageInput, PageContainer, TransformationHistory} from '../../components';
 
 export const MainPage = () => {
     return (
@@ -27,12 +20,8 @@ export const MainPage = () => {
                     <ImageInput/>
                 </UploadSection>
 
-                <ControlsSection>
-                    <TransformationControls/>
-                </ControlsSection>
-
                 <DisplaySection>
-                    <ImageDisplay/>
+                    <ImageEditor/>
                 </DisplaySection>
 
                 <HistorySection>
