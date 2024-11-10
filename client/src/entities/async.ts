@@ -1,3 +1,11 @@
+export enum AsyncActionKeys {
+    GET_GALLERY,
+    GET_IMAGE,
+    UPLOAD_IMAGE,
+    REMOVE_IMAGE,
+
+}
+
 export enum AsyncStatus {
     PROGRESS = 'PROGRESS',
     SUCCESS = 'SUCCESS',
@@ -5,6 +13,6 @@ export enum AsyncStatus {
 }
 
 export type AsyncAction = {
-    action: string,
+    action: AsyncActionKeys,
     status: AsyncStatus | null
 }

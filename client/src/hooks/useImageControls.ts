@@ -1,13 +1,18 @@
-import {useImageContext} from "./useImageContext.ts";
+import {useImageProvider} from "./useImageProvider.ts";
 import {useCallback} from "react";
-import {ImageActionType} from "../state/state.ts";
-import {ImageEntity, Transformation} from "../entities";
+import {ImageEntity} from "../entities";
+import {ImageActionType} from "../state";
+import {useImageServiceApi} from "./useImageServiceApi.ts";
 
 export const useImageControls = () => {
     const {
         dispatch,
-        state: {transformedImage, selectedImage, transformationHistory}
-    } = useImageContext();
+        state: {transformedImage, selectedImage, selectedTransformation},
+    } = useImageProvider();
+
+    const {
+        actions: {uploadImage, removeImage}
+    } = useImageServiceApi();
 
     const setTransformedImage = useCallback((payload: File | null) => {
         dispatch({type: ImageActionType.SET_TRANSFORMED_IMAGE, payload});
@@ -17,20 +22,32 @@ export const useImageControls = () => {
         dispatch({type: ImageActionType.SELECT_IMAGE, payload});
     }, [dispatch])
 
-    const addTransformation = useCallback((payload: Transformation) => {
-        dispatch({type: ImageActionType.ADD_TRANSFORMATION, payload});
-    }, [dispatch])
+    const resetSelectedImage = useCallback(() => setSelectedImage(null), [setSelectedImage])
 
-    const resetTransformations = useCallback(() => {
-        dispatch({type: ImageActionType.RESET_TRANSFORMATIONS});
-    }, [dispatch])
+    const handleSave = useCallback(async () => {
+        if (transformedImage) {
+            await uploadImage(transformedImage)
+            resetSelectedImage()
+        }
+    }, [uploadImage, transformedImage, resetSelectedImage])
+
+    const handleRemove = useCallback(async () => {
+        if (selectedImage) {
+            await removeImage(selectedImage)
+            resetSelectedImage()
+        }
+    }, [removeImage, selectedImage, resetSelectedImage])
+
 
     return {
-        dispatch,
-        setSelectedImage, selectedImage,
-        transformedImage, setTransformedImage,
-        transformationHistory,
-        addTransformation, resetTransformations
+        actions: {
+            handleSave, handleRemove,
+            setSelectedImage, resetSelectedImage,
+            setTransformedImage,
+        }, state: {
+            selectedImage,
+            transformedImage,
+            selectedTransformation,
+        }
     }
-
 }

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {SectionCentered} from "../../components/Shared/Section.tsx";
+import {SectionCentered} from "../../components";
 
 export const PageHeader = styled.div`
     width: 100%;

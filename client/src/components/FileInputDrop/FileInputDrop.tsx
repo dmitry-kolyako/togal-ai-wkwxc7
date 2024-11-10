@@ -1,5 +1,5 @@
 import React, {FC, PropsWithChildren, useState} from "react";
-import {FileDropInputComponents} from "./FileDropInput.components.tsx";
+import {FileInputDropComponents} from "./FileInputDrop.components.tsx";
 
 type Porps = {
     onFinish: (file: File) => void,
@@ -29,7 +29,7 @@ export const FileInputDropInput: FC<PropsWithChildren<Porps>> = ({children, onFi
     }
 
 
-    return <FileDropInputComponents
+    return <FileInputDropComponents
         isDragging={isDragging}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -37,5 +37,5 @@ export const FileInputDropInput: FC<PropsWithChildren<Porps>> = ({children, onFi
         onClick={handleDropAreaClick}
     >
         {children}
-    </FileDropInputComponents>
+    </FileInputDropComponents>
 }

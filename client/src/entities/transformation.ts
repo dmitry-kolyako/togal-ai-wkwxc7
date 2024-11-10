@@ -1,4 +1,5 @@
 export enum TransformationType {
+    INITIAL = 'INITIAL',
     ROTATE_RIGHT = 'ROTATE_RIGHT',
     ROTATE_LEFT = 'ROTATE_LEFT',
     RESET = 'RESET',

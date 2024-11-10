@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const FileDropInputComponents = styled('div').withConfig({
+export const FileInputDropComponents = styled('div').withConfig({
     shouldForwardProp: (prop) =>!['isDragging'].includes(prop),
 })<{ isDragging?: boolean }>`
     padding: 20px;
@@ -9,7 +9,6 @@ export const FileDropInputComponents = styled('div').withConfig({
     text-align: center;
     cursor: pointer;
     margin-bottom: 10px;
-
 
     ${({ isDragging }) =>
     isDragging &&

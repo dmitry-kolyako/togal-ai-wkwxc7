@@ -4,9 +4,9 @@ export const ImageCardFrame = styled('div').withConfig({
     shouldForwardProp: (prop) =>!['active'].includes(prop),
 })<{ active: boolean }>`
     border: 1px solid #ccc;
-    padding: 10px;
-    width: 100px;
-    height: 100px;
+    padding: 8px;
+    width: 64px;
+    height: 64px;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -14,7 +14,7 @@ export const ImageCardFrame = styled('div').withConfig({
     ${({active}) =>
             active &&
             css`
-                padding: 9px;
+                padding: 7px;
                 border: 2px solid blue;
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
             `}

@@ -1,5 +1,6 @@
-import {ImageCollection, ImageModel} from "../../../shared/types/Image.ts";
+import {ImageCollection, ImageModel, ImageModelId} from "../../../shared/types/Image.ts";
 import {ApiEndpoints, TApiConfig} from "../../../shared/config/api.config.ts";
+import {createUrlFromRoute} from "../../../shared/utils/createUrlFromRoute.ts";
 
 export class ApiServiceV1 {
     private static instance: ApiServiceV1;
@@ -36,6 +37,13 @@ export class ApiServiceV1 {
         })
     }
 
+    private async httpDel(path: string, init?: RequestInit) {
+        return await fetch(this.endpoint(path), {
+            ...init,
+            method: 'DELETE',
+        })
+    }
+
     // Upload image to the backend
     public async uploadImage(file: File): Promise<ImageModel> {
         const formData = new FormData();
@@ -50,6 +58,21 @@ export class ApiServiceV1 {
             return response.json();
         } catch (error) {
             console.error('Error uploading image:', error);
+            throw error;
+        }
+    }
+
+    // remove
+    public async removeImage(id: ImageModelId): Promise<void> {
+        try {
+            const removeUrl = createUrlFromRoute(ApiEndpoints.REMOVE, {id})
+            const response = await this.httpDel(removeUrl)
+            if (!response.ok) {
+                throw new Error(`Failed to upload image: ${response.statusText}`);
+            }
+            return Promise.resolve();
+        } catch (error) {
+            console.error('Error removing image:', error);
             throw error;
         }
     }

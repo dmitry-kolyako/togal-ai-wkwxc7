@@ -1,5 +1,7 @@
+export type ImageModelId = string
+
 export type ImageModel = {
-    id: string;
+    id: ImageModelId;
     url: string;
     filename: string;
 };

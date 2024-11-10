@@ -1,7 +1,7 @@
 import {ImageModel} from "../../entities";
 import {ImageCardFrame, ImageCardPic} from "./ImageCard.components.tsx";
 
-interface ImageCardProps {
+type ImageCardProps = {
     isActive: boolean;
     image: ImageModel;
     onClick: () => void

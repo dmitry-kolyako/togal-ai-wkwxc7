@@ -23,7 +23,7 @@ export const deleteImage = (req: Request, res: Response): void => {
         }
 
         // Delete the file
-        fs.rm(filePath, (unlinkErr) => {
+        fs.rm(filePath, { recursive: true }, (unlinkErr) => {
             if (unlinkErr) {
                 console.error('Failed to delete file:', unlinkErr);
                 res.status(500).json({message: 'Failed to delete file'});

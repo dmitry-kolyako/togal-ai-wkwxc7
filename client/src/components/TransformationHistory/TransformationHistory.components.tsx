@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import {Container} from "../Shared";
 
 const HistoryContainer = styled(Container)`
@@ -12,7 +12,13 @@ const HistoryList = styled.ul`
     margin: 0;
 `;
 
-const HistoryItem = styled.li`
+const HistoryItem = styled.li.withConfig({
+    shouldForwardProp: (prop) => !['isHidden', 'isActive'].includes(prop),
+})<{
+    isActive?: boolean
+    isHidden?: boolean
+}>`
+    cursor: pointer;
     padding: 8px;
     margin: 5px 0;
     background-color: #ffffff;
@@ -22,6 +28,18 @@ const HistoryItem = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    ${({isActive}) =>
+            isActive &&
+            css`
+                border-color: #4a90e2;
+            `}
+
+    ${({isHidden}) =>
+            isHidden &&
+            css`
+                opacity: 0.5;
+            `}
 `;
 
 const HistoryLabel = styled.span`

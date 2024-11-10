@@ -16,8 +16,9 @@ export const ApiConfig: TApiConfig = {
 
 export enum ApiEndpoints {
     UPLOAD = "/upload",
+    GET = "/image/:id",
+    REMOVE = "/image/:id",
     IMAGES = "/images",
-    IMAGE = "/image/:id",
 }
 
 export const AcceptedExtensions = [

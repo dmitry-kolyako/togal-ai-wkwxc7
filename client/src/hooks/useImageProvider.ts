@@ -1,5 +1,6 @@
 import {useContext} from "react";
-import {ImageContext} from "../context/ImageContext.tsx";
+import {useImageProviderActions} from "./useImageProviderActions.ts";
+import {ImageContext} from "../context";
 
 export const useImageContext = () => {
     const context = useContext(ImageContext);
@@ -10,4 +11,15 @@ export const useImageContext = () => {
     }
 
     return context;
+}
+
+export const useImageProvider = () => {
+    const {dispatch, state, api} = useImageContext();
+
+    const actions = useImageProviderActions()
+
+    return {
+        dispatch, state, api,
+        actions,
+    }
 }

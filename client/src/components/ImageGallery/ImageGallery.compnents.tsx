@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Container} from "../Shared";
+import {Container} from "../Shared/Container.tsx";
 
 export const GalleryContainer = styled(Container)`
     

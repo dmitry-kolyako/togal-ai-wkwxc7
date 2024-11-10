@@ -1,57 +1,23 @@
-import {FC, useCallback, useEffect, useMemo} from 'react';
+import {FC} from 'react';
 import {ImageCard} from "../ImageCard/ImageCard.tsx";
 import {GalleryContainer, GalleryList} from "./ImageGallery.compnents.tsx";
-import {useImageContext, useImageControls} from "../../hooks";
-import {ImageModel} from "../../../../shared/types/Image.ts";
-import {getFileFromUrl} from "../../utils/getFIleFromUrl.ts";
-
+import {useGalleryControls} from "../../hooks";
+import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 
 export const ImageGallery: FC = () => {
     const {
-        selectedImage, setSelectedImage,
-    } = useImageControls()
-
-    const {
-        state: {gallery}, api: {withLoading, loadImages}
-    } = useImageContext()
-
-    useEffect(() => {
-        loadImages()
-    }, [loadImages]);
-
-
-    const imageCards = useMemo(() => gallery.map(
-        (image) => {
-            return {
-                ...image,
-            };
-        }
-    ), [gallery])
-
-    const trackImageLoading = useMemo(() => withLoading('getFileFromUrl'), [withLoading])
-
-    const handleSelected = useCallback(
-        (image: ImageModel) => () => {
-            trackImageLoading(
-                getFileFromUrl(image)
-            ).then(file => (setSelectedImage({
-                ...image,
-                file
-            })))
-        }, [setSelectedImage, trackImageLoading]
-    )
+        actions: {handleSelected},
+        state: {gallery, selectedImage, confirmationDialog}
+    } = useGalleryControls()
 
     return (
-
         <GalleryContainer>
             <h3>Images Saved</h3>
-
             <GalleryList>
-
-                {imageCards.length === 0 ? (
+                {gallery.length === 0 ? (
                     <p>No images stored.</p>
                 ) : (
-                    imageCards.map((image) => (
+                    gallery.map((image) => (
                         <ImageCard
                             key={image.id}
                             onClick={handleSelected(image)}
@@ -59,6 +25,11 @@ export const ImageGallery: FC = () => {
                     ))
                 )}
             </GalleryList>
+
+            <ConfirmationDialog
+                title={"Update Image Confirmation"}
+                {...confirmationDialog}
+            />
         </GalleryContainer>
     );
 };
