@@ -8,5 +8,12 @@ export const ImagePreview = styled.div`
 export const ImageActionButton = styled.button`
     padding: 10px 15px;
     font-size: 14px;
-    cursor: pointer;
+    cursor: pointer;    
+    white-space: nowrap;
 `
+
+export const ImageActionsContainer = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+`;

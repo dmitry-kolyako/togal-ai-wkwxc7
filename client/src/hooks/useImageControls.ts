@@ -30,16 +30,14 @@ export const useImageControls = () => {
     const handleSave = useCallback(async () => {
         if (transformedImage) {
             await uploadImage(transformedImage)
-            resetSelectedImage()
         }
-    }, [uploadImage, transformedImage, resetSelectedImage])
+    }, [uploadImage, transformedImage])
 
     const handleRemove = useCallback(async () => {
         if (selectedImage) {
             await removeImage(selectedImage)
-            resetSelectedImage()
         }
-    }, [removeImage, selectedImage, resetSelectedImage])
+    }, [removeImage, selectedImage])
 
 
     return {

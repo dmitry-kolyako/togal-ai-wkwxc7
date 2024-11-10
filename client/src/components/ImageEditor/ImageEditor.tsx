@@ -1,13 +1,12 @@
 import {useMemo} from "react";
 import {useImageControls, useImageServiceApi} from "../../hooks";
-import {ImagePreview} from "./ImageEditor.components.tsx";
-import {ImageTransformer} from "../ImageTransformer/ImageTransformer.tsx";
 import {useTransformationControls} from "../../hooks/useTransformationControls.ts";
 import {AsyncStatus} from "../../entities";
-import {SuccessMessage} from "../SuccessMessage/SuccessMessage.tsx";
-import {ThreeColumnGrid} from "../Shared/ThreeColumnGrid.tsx";
-import {ImageEditorFileControls} from "./ImageEditorFileControls.tsx";
+import {ImageTransformer, SuccessMessage} from "../";
+import {ThreeColumnGrid} from "../Shared";
+import {ImagePreview} from "./ImageEditor.components.tsx";
 import {ImageEditorTransformationControls} from "./ImageEditorTransformationControls.tsx";
+import {ImageEditorFileControls} from "./ImageEditorFileControls.tsx";
 
 export const ImageEditor = () => {
     const {

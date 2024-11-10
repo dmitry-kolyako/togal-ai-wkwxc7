@@ -2,7 +2,9 @@ import {useImageControls, useOnKeyDownKey} from "../../hooks";
 import {useMemo} from "react";
 import {useDialogControls} from "../ConfirmationDialog/useDialogControls.ts";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
-import {ImageActionButton} from "./ImageEditor.components.tsx";
+import {ButtonWithIcon} from "../Shared";
+import {DeleteIcon, SaveIcon} from "../Icons/Icons.tsx";
+import {ImageActionsContainer} from "./ImageEditor.components.tsx";
 
 export const ImageEditorFileControls = () => {
     const {
@@ -24,9 +26,21 @@ export const ImageEditorFileControls = () => {
 
     useOnKeyDownKey(canDelete, 'Delete', handleDelete)
 
-    return <>
-        <ImageActionButton disabled={!canSave} onClick={handleSave}>Save</ImageActionButton>
-        <ImageActionButton disabled={!canDelete} onClick={handleDelete}>Delete</ImageActionButton>
+    return <ImageActionsContainer>
+
+        <ButtonWithIcon
+            disabled={!canDelete}
+            icon={<DeleteIcon/>}
+            onClick={handleDelete}
+            ariaLabel="Delete"
+        >Delete</ButtonWithIcon>
+
+        <ButtonWithIcon
+            disabled={!canSave}
+            icon={<SaveIcon/>}
+            onClick={handleSave}
+            ariaLabel="Delete"
+        >Save</ButtonWithIcon>
 
         <ConfirmationDialog
             isOpen={dialogDelete.isOpen}
@@ -35,5 +49,5 @@ export const ImageEditorFileControls = () => {
             onConfirm={handleConfirmDelete}
             onCancel={handleCancelDelete}
         />
-    </>
+    </ImageActionsContainer>
 }

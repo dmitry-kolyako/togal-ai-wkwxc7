@@ -38,11 +38,12 @@ export const useTransformationControls = () => {
     }, [dispatch])
 
     const [transformationItem, prepareTransformation] = useState<null | Transformation>(null);
-    const dialog = useDialogControls()
+    const changeFlowDialog = useDialogControls()
+
 
     const handleCancelTransformation = () => {
         prepareTransformation(null)
-        dialog.close()
+        changeFlowDialog.close()
     };
     const handleApplyTransformation = useCallback(() => {
         addTransformation(transformationItem)
@@ -55,7 +56,7 @@ export const useTransformationControls = () => {
             transformationHistory.slice(0, selectedTransformation + 1)
         )
         handleApplyTransformation()
-        dialog.close()
+        changeFlowDialog.close()
     };
 
     const needConfirmTransformation = useMemo(() => (
@@ -68,11 +69,11 @@ export const useTransformationControls = () => {
 
     useEffect(() => {
         if (needConfirmTransformation) {
-            dialog.open()
+            changeFlowDialog.open()
         } else if (transformationItem) {
             handleApplyTransformation()
         }
-    }, [transformationItem, handleApplyTransformation, needConfirmTransformation, dialog]);
+    }, [transformationItem, handleApplyTransformation, needConfirmTransformation, changeFlowDialog]);
 
     const handleTransform = useCallback((type: TransformationType) => {
         prepareTransformation({type});
@@ -86,25 +87,41 @@ export const useTransformationControls = () => {
         setSelectedTransformation(selectedTransformation - 1)
     }, [setSelectedTransformation, selectedTransformation])
 
-    const {canTransform, canRedo, canUndo} = useMemo(() => ({
+    const {canTransform, canRedo, canUndo, canReset} = useMemo(() => ({
         canRedo: selectedTransformation + 1 < transformationHistory.length,
         canUndo: transformationHistory.length && selectedTransformation > -1,
-        canTransform: Boolean(transformedImage)
+        canTransform: Boolean(transformedImage),
+        canReset: Boolean(transformationHistory.length),
     }), [selectedTransformation, transformationHistory, transformedImage])
 
+    const resetFlowDialog = useDialogControls()
 
     return {
         state: {
             transformedImage, needConfirmTransformation,
             transformationHistory, selectedTransformation,
 
-            canRedo, canUndo, canTransform,
+            canRedo, canUndo, canTransform, canReset,
 
-            confirmationDialog: {
-                isOpen: dialog.isOpen,
+            confirmationResetDialog: {
+                open: resetFlowDialog.open,
+                isOpen: resetFlowDialog.isOpen,
+                onConfirm: () => {
+                    resetTransformations();
+                    resetFlowDialog.close();
+                },
+                onCancel: () => {
+                    resetFlowDialog.close();
+                }
+            },
+
+            confirmationChangeDialog: {
+
+                isOpen: changeFlowDialog.isOpen,
                 onConfirm: handleConfirmTransformation,
                 onCancel: handleCancelTransformation
-            },
+            }
+
         },
         actions: {
             addTransformation, resetTransformations, setSelectedTransformation,

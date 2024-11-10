@@ -1,43 +1,65 @@
 import {useTransformationControls} from "../../hooks/useTransformationControls.ts";
 import {TransformationType} from "../../entities";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
-import {ImageActionButton} from "./ImageEditor.components.tsx";
+import {ImageActionsContainer} from "./ImageEditor.components.tsx";
+import {ButtonWithIcon} from "../Shared";
+import {ClearHistoryIcon, RedoIcon, RotateLeft, RotateRight, UndoIcon, ZoomIn, ZoomOut} from "../Icons/Icons.tsx";
 
 export const ImageEditorTransformationControls = () => {
     const {
         actions: {
-            resetTransformations,
             handleTransform, handleRedo, handleUndo
         },
         state: {
-            canTransform, confirmationDialog,
+            canTransform, canReset,
+            confirmationChangeDialog,
+            confirmationResetDialog,
             canRedo, canUndo
         }
     } = useTransformationControls()
 
+    return <ImageActionsContainer>
+        <ButtonWithIcon
+            icon={<UndoIcon/>}
+            disabled={!canUndo} onClick={handleUndo}>Undo</ButtonWithIcon>
+        <ButtonWithIcon
+            icon={<RedoIcon/>}
+            disabled={!canRedo} onClick={handleRedo}>Redo</ButtonWithIcon>
 
-    return <>
-        <ImageActionButton disabled={!canUndo} onClick={handleUndo}>Undo</ImageActionButton>
-        <ImageActionButton disabled={!canRedo} onClick={handleRedo}>Redo</ImageActionButton>
-
-        <ImageActionButton disabled={!canTransform} onClick={() => handleTransform(TransformationType.ROTATE_LEFT)}>Rotate
-            Left</ImageActionButton>
-        <ImageActionButton disabled={!canTransform} onClick={() => handleTransform(TransformationType.ROTATE_RIGHT)}>Rotate
-            Right</ImageActionButton>
-        <ImageActionButton disabled={!canTransform} onClick={() => handleTransform(TransformationType.ZOOM_IN)}>Zoom
-            In</ImageActionButton>
-        <ImageActionButton disabled={!canTransform} onClick={() => handleTransform(TransformationType.ZOOM_OUT)}>Zoom
-            Out</ImageActionButton>
-        <ImageActionButton disabled={!canTransform}
-                             onClick={() => resetTransformations()}>Reset</ImageActionButton>
-
+        <ButtonWithIcon
+            icon={<RotateLeft/>}
+            disabled={!canTransform}
+            onClick={() => handleTransform(TransformationType.ROTATE_LEFT)}>Rotate Left</ButtonWithIcon>
+        <ButtonWithIcon
+            icon={<RotateRight/>}
+            disabled={!canTransform}
+            onClick={() => handleTransform(TransformationType.ROTATE_RIGHT)}>Rotate Right</ButtonWithIcon>
+        <ButtonWithIcon
+            icon={<ZoomIn/>}
+            disabled={!canTransform}
+            onClick={() => handleTransform(TransformationType.ZOOM_IN)}>Zoom In</ButtonWithIcon>
+        <ButtonWithIcon
+            icon={<ZoomOut/>}
+            disabled={!canTransform}
+            onClick={() => handleTransform(TransformationType.ZOOM_OUT)}>Zoom Out</ButtonWithIcon>
+        <ButtonWithIcon
+            icon={<ClearHistoryIcon/>}
+            disabled={!canReset}
+            onClick={() => confirmationResetDialog.open()}>Reset</ButtonWithIcon>
 
         <ConfirmationDialog
             title={"Change Transformation Flow"}
             message={"Are you sure you want to reset transformation history from here?"}
             {
-                ...confirmationDialog
+                ...confirmationChangeDialog
             }
         />
-    </>
+        <ConfirmationDialog
+            title={"Reset Transformation Flow"}
+            message={"Are you sure to reset transformations?"}
+            {
+                ...confirmationResetDialog
+            }
+        />
+    </ImageActionsContainer>
 }
