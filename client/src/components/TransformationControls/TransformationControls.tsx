@@ -4,7 +4,7 @@ import {ControlButton, ControlPanel} from "./TransformationControls.components.t
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 import {useDialogControls} from "../ConfirmationDialog/useDialogControls.ts";
 import {useTransformationControls} from "../../hooks/useTransformationControls.ts";
-import {useImageControls} from "../../hooks";
+import {useImageControls, useOnKeyDownKey} from "../../hooks";
 
 export const TransformationControls: React.FC = () => {
     return (
@@ -31,17 +31,19 @@ const ControlTransformedImage = () => {
     const canDelete = useMemo(() => (Boolean(selectedImage?.id)), [selectedImage])
 
     const dialogDelete = useDialogControls()
+    const handleDelete = () => dialogDelete.open();
+
     const handleCancelDelete = () => dialogDelete.close();
     const handleConfirmDelete = () => {
         handleRemove()
         dialogDelete.close();
     };
 
+    useOnKeyDownKey(canDelete, 'Delete', handleDelete)
+
     return <>
         <ControlButton disabled={!canSave} onClick={handleSave}>Save</ControlButton>
-        <ControlButton disabled={!canDelete} onClick={
-            () => dialogDelete.open()
-        }>Delete</ControlButton>
+        <ControlButton disabled={!canDelete} onClick={handleDelete}>Delete</ControlButton>
 
         <ConfirmationDialog
             isOpen={dialogDelete.isOpen}

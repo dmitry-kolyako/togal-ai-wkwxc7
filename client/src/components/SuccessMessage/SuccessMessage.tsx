@@ -1,5 +1,5 @@
 // SuccessMessage.tsx
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 type SuccessMessageProps = {
@@ -14,27 +14,20 @@ export const SuccessMessage: React.FC<SuccessMessageProps> = ({
                                                                   duration = 3000,
                                                               }) => {
     const [isVisible, setIsVisible] = useState(true);
+    const handleHide = useCallback(() => {
+        setIsVisible(false);
+        if (onHide) onHide();
+    }, [setIsVisible, onHide]);
 
     useEffect(() => {
-        // Automatically hide the message after the specified duration
-        const timer = setTimeout(() => {
-            setIsVisible(false);
-            onHide();
-        }, duration);
-
-        // Clear the timeout if the component unmounts before the duration ends
+        const timer = setTimeout(handleHide, duration);
         return () => clearTimeout(timer);
-    }, [duration, onHide]);
+    }, [duration, handleHide]);
 
-    if (!isVisible) return null;
-
-    return (
+    return isVisible && (
         <MessageContainer>
             <span>{message}</span>
-            <CloseButton onClick={() => {
-                setIsVisible(false);
-                onHide();
-            }}>&times;</CloseButton>
+            <CloseButton onClick={handleHide}>&times;</CloseButton>
         </MessageContainer>
     );
 };

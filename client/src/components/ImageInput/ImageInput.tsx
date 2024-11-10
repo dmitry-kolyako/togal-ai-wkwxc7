@@ -1,11 +1,12 @@
 import React, {useRef} from 'react';
 import {useImageInput} from "../../hooks";
-import {HiddenFileInput} from "./ImageInput.components.tsx";
+import {ClearButton, HiddenFileInput} from "./ImageInput.components.tsx";
 import {FileInputDropInput} from "../FileInputDrop/FileInputDrop.tsx";
 
 import {AcceptedFileTypes} from "../../../../shared/config/api.config.ts";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
-import {Button, Container, ErrorMessage} from "../Shared";
+import {Container, ErrorMessage} from "../Shared";
+import {useDialogControls} from "../ConfirmationDialog/useDialogControls.ts";
 
 const AcceptedFileInput = AcceptedFileTypes.join(',');
 
@@ -26,6 +27,8 @@ export const ImageInput: React.FC = () => {
         }
     };
 
+    const clearDialog = useDialogControls()
+
 
     return (
         <Container>
@@ -42,13 +45,29 @@ export const ImageInput: React.FC = () => {
                 <p>Drag & drop an image here, or click to select one.</p>
             </FileInputDropInput>
             {error && <ErrorMessage>{error}</ErrorMessage>}
-            {selectedImage && <Button onClick={handleReset}>
-                Clear
-            </Button>}
+            {selectedImage && <ClearButton onClick={
+                () => clearDialog.open()
+            }>
+                Clear Selected Image
+            </ClearButton>}
 
             <ConfirmationDialog
                 title={"Update Image Confirmation"}
                 {...confirmDialogProps}
+            />
+
+            <ConfirmationDialog
+                isOpen={clearDialog.isOpen}
+                title={"Clear Selected Image Confirmation"}
+                onCancel={()=>clearDialog.close()}
+                onConfirm={()=>{
+                    handleReset()
+                    clearDialog.close()
+                }}
+                message={
+                    'Are you sure to cleanup current image selected?'
+                }
+
             />
 
         </Container>
