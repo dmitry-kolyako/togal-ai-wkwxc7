@@ -13,18 +13,22 @@ export const ImageGallery: FC = () => {
     return (
         <GalleryContainer>
             <h3>Images Saved</h3>
-            <GalleryList>
-                {gallery.length === 0 ? (
-                    <p>No images stored.</p>
-                ) : (
-                    gallery.map((image) => (
-                        <ImageCard
-                            key={image.id}
-                            onClick={handleSelected(image)}
-                            image={image} isActive={image.id === selectedImage?.id}/>
-                    ))
-                )}
-            </GalleryList>
+
+            {gallery.length === 0 ? (
+                <p>No images stored on server.</p>
+            ) : (
+                <GalleryList>
+                    {
+                        gallery.map((image) => (
+                            <ImageCard
+                                key={image.id}
+                                onClick={handleSelected(image)}
+                                image={image} isActive={image.id === selectedImage?.id}/>
+                        ))
+                    }
+                </GalleryList>
+            )}
+
 
             <ConfirmationDialog
                 title={"Update Image Confirmation"}
