@@ -1,7 +1,7 @@
 import fs from "fs";
 import {Request, Response} from "express";
-import {UPLOADS_ROOT} from "../../middleware/imageUploadMiddleware";
 import {ImageModel} from "../../../../shared/types/Image";
+import {UPLOADS_ROOT} from "../../config/storage";
 import {getImageModelById} from "./getImageModelById";
 
 export const getImagesAll = async (req: Request, res: Response) => {

@@ -22,6 +22,7 @@ export const ThreeColumnGrid: React.FC<Props> = ({children: {Left, Center, Right
 
 
 const GridContainer = styled.div`
+    min-width: ${CanvasSize.width}px;
     display: grid;
     grid-template-columns: 0.5fr ${CanvasSize.width}px 0.5fr;
     gap: 1rem;

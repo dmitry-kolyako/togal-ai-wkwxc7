@@ -12,3 +12,6 @@
 ## Run
 
 As application has both client and server you have to start them both
+
+- in `/client` run `npm run dev-client`
+- in `/server` run `npm run dev-server`

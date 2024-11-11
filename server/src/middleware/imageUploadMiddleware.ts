@@ -4,11 +4,7 @@ import multer from "multer";
 import {Fields} from "../../../shared/types/Fields";
 import {createDirectoryIfNotExists} from "../utils/createDirectoryIfNotExists";
 import {getImageUploadSession} from "./imageUploadSession";
-
-export const UPLOADS_ROOT = path.join(__dirname, '../..', 'images');
-export const HISTORY_DIR = 'history';
-
-createDirectoryIfNotExists(UPLOADS_ROOT);
+import {HISTORY_DIR, UPLOADS_ROOT} from "../config/storage";
 
 export const makeImageDirectory = (id: string) => {
     const imageDir = createDirectoryIfNotExists(path.join(UPLOADS_ROOT, id));

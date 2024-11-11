@@ -13,8 +13,9 @@ export const GalleryList = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     gap: 10px;
-    
-    width: 660px;
+
+    width: 100%;
+    max-width: 660px;
     align-self: center;
     justify-content: left;
     

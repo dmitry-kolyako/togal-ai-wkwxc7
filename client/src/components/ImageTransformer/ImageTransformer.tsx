@@ -1,11 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import {Transformation} from "../../entities";
-import {transformImage} from "../../utils/transformImage.ts";
-
-import {cutOutRectangleFromCanvasToBlob} from "../../utils/cutOutRectangleFromCanvas.ts";
 import {TransformerCanvas, TransformerCanvasContainer} from "./ImageTransformer.components.tsx";
 import {TPreviewSource} from "./useImagePreviewSource.ts";
 import {CanvasSize} from "../../config/config.ts";
+import {cutOutRectangleFromCanvasToBlob, transformImage} from "../../utils";
 
 type Props = {
     previewSource: TPreviewSource

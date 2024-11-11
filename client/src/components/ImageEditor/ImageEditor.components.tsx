@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import {CanvasSize} from "../../config/config.ts";
 import {Breakpoint} from "../../config/theme.ts";
 
 export const ImagePreview = styled.div`
-    min-width: ${CanvasSize.width}px;
     padding: 0 20px;
 `
 

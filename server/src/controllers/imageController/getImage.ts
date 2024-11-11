@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import {Request, Response} from "express";
-import {HISTORY_DIR, UPLOADS_ROOT} from "../../middleware/imageUploadMiddleware";
 import {readAllowedImages} from "../../utils/readAllowedImages";
+import {HISTORY_DIR, UPLOADS_ROOT} from "../../config/storage";
 
 export const getImage = async (req: Request, res: Response) => {
     const imageDir = path.join(UPLOADS_ROOT, req.params.id);

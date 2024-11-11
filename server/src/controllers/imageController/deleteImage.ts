@@ -1,7 +1,7 @@
-import {Request, Response} from "express";
-import path from "path";
-import {UPLOADS_ROOT} from "../../middleware/imageUploadMiddleware";
 import fs from "fs";
+import path from "path";
+import {Request, Response} from "express";
+import {UPLOADS_ROOT} from "../../config/storage";
 
 export const deleteImage = (req: Request, res: Response): void => {
     const {id} = req.params;
