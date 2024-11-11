@@ -5,6 +5,7 @@ import {ImageActionType} from "../state";
 import {useImageServiceApi} from "./useImageServiceApi.ts";
 import {useImagePreviewSource} from "../components/ImageTransformer/useImagePreviewSource.ts";
 import {useTransformationControls} from "./useTransformationControls.ts";
+import {downloadFile} from "../utils/downloadFile.ts";
 
 export const useImageControls = () => {
     const {
@@ -37,6 +38,12 @@ export const useImageControls = () => {
         }
     }, [uploadImage, selectedImage, transformedImage, transformationHistory])
 
+    const handleDownload = useCallback(async () => {
+        if (transformedImage) {
+            downloadFile(transformedImage)
+        }
+    }, [transformedImage])
+
     const handleRemove = useCallback(async () => {
         if (selectedImage) {
             await removeImage(selectedImage)
@@ -46,7 +53,7 @@ export const useImageControls = () => {
 
     return {
         actions: {
-            handleSave, handleRemove,
+            handleSave, handleRemove, handleDownload,
             setSelectedImage, resetSelectedImage,
             setTransformedImage,
         },

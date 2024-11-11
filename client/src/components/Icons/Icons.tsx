@@ -8,7 +8,8 @@ import SaveIcon from './assets/save_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg';
 import UndoIcon from './assets/undo_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg'; // Importing an SVG file
 import RedoIcon from './assets/redo_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg'; // Importing an SVG file
 import ClearHistoryIcon from './assets/delete_history_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg'; // Importing an SVG file
+import DownloadIcon from './assets/download_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg'; // Importing an SVG file
 
 export {
-    DeleteIcon, HistoryIcon, SaveIcon, RotateRight, RotateLeft, ZoomIn, ZoomOut, UndoIcon, RedoIcon, ClearHistoryIcon
+    DeleteIcon, HistoryIcon, SaveIcon, RotateRight, RotateLeft, ZoomIn, ZoomOut, UndoIcon, RedoIcon, ClearHistoryIcon, DownloadIcon
 }

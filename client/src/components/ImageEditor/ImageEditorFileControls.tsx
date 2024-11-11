@@ -3,12 +3,12 @@ import {useMemo} from "react";
 import {useDialogControls} from "../ConfirmationDialog/useDialogControls.ts";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 import {ButtonWithIcon} from "../Shared";
-import {DeleteIcon, SaveIcon} from "../Icons/Icons.tsx";
+import {DeleteIcon, DownloadIcon, SaveIcon} from "../Icons/Icons.tsx";
 import {ImageActionsContainer} from "./ImageEditor.components.tsx";
 
 export const ImageEditorFileControls = () => {
     const {
-        actions: {handleRemove, handleSave},
+        actions: {handleRemove, handleSave, handleDownload},
         state: {selectedImage, transformedImage}
     } = useImageControls()
 
@@ -39,8 +39,15 @@ export const ImageEditorFileControls = () => {
             disabled={!canSave}
             icon={<SaveIcon/>}
             onClick={handleSave}
-            ariaLabel="Delete"
+            ariaLabel="Save"
         >Save</ButtonWithIcon>
+
+        <ButtonWithIcon
+            disabled={!canSave}
+            icon={<DownloadIcon/>}
+            onClick={handleDownload}
+            ariaLabel="Download"
+        >Download</ButtonWithIcon>
 
         <ConfirmationDialog
             isOpen={dialogDelete.isOpen}
