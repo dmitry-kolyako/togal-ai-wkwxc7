@@ -8,14 +8,14 @@ type ImageCardProps = {
 }
 
 
-export const ImageCard: React.FC<ImageCardProps> = ({ image: { url }, isActive, onClick }) => {
+export const ImageCard: React.FC<ImageCardProps> = ({ image: { preview_url }, isActive, onClick }) => {
     const handleImageClick = () => {
         onClick();
     };
 
     return (
         <ImageCardFrame onClick={handleImageClick} active={Boolean(isActive)}>
-            <ImageCardPic src={url} />
+            <ImageCardPic src={preview_url} />
         </ImageCardFrame>
     );
 };

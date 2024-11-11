@@ -23,6 +23,7 @@ export const useImageInput = () => {
             setSelectedImage({
                 id: null,
                 url: null,
+                preview_url: null,
                 file: selectedFile,
                 filename: selectedFile.name,
                 history: []

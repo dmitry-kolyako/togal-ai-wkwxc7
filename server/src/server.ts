@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express from 'express';
-import {imagesRouter} from "./images/images.routes";
+import {imagesRouter} from "./routers/imagesRouter";
 import {corsOptions} from "./middleware/corsOptions";
 import {ApiConfig} from "../../shared/config/api.config";
 

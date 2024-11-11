@@ -6,7 +6,7 @@ import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.tsx";
 
 export const ImageGallery: FC = () => {
     const {
-        actions: {handleSelected},
+        actions: {handleSelect},
         state: {gallery, selectedImage, confirmationDialog}
     } = useGalleryControls()
 
@@ -22,8 +22,10 @@ export const ImageGallery: FC = () => {
                         gallery.map((image) => (
                             <ImageCard
                                 key={image.id}
-                                onClick={handleSelected(image)}
-                                image={image} isActive={image.id === selectedImage?.id}/>
+                                isActive={image.id === selectedImage?.id}
+                                onClick={handleSelect(image)}
+                                image={image}
+                            />
                         ))
                     }
                 </GalleryList>

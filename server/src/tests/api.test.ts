@@ -6,7 +6,7 @@ import path from 'path';
 
 // Setup test image paths
 const testImagePath = path.join(__dirname, 'test-image.jpg');
-const imagesDir = path.join(__dirname, '../../images');
+const imagesDir = path.join(__dirname, '../../routers');
 
 // beforeAll(() => {
 //   // Create a test image file
@@ -14,7 +14,7 @@ const imagesDir = path.join(__dirname, '../../images');
 // });
 //
 // afterAll(() => {
-//   // Clean up test images
+//   // Clean up test routers
 //   fs.unlinkSync(testImagePath);
 //   if (fs.existsSync(imagesDir)) {
 //     fs.readdirSync(imagesDir).forEach((file) => fs.unlinkSync(path.join(imagesDir, file)));

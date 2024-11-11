@@ -94,7 +94,7 @@ export class ApiServiceV1 {
 
             return response.json();
         } catch (error) {
-            console.error('Error loading images', error);
+            console.error('Error loading routers', error);
             throw error;
         }
     }

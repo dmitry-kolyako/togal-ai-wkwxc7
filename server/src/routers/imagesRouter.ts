@@ -1,8 +1,9 @@
 import {Router} from "express";
-import {imageUploader} from "./imageUploader";
+import {imageUploader} from "../middleware/imageUploader";
 import {ApiEndpoints} from "../../../shared/config/api.config";
 import {deleteImage, getImage, getImagePreview, getImagesAll, storeImage} from "../controllers/imageController";
-import {Fields} from "../../../shared/types/Fields";
+import {imageUploadSession} from "../middleware/imageUploadSession";
+
 
 export const imagesRouter = Router()
 
@@ -10,17 +11,11 @@ export const imagesRouter = Router()
 imagesRouter.get(ApiEndpoints.IMAGE, getImage);
 imagesRouter.get(ApiEndpoints.IMAGE_PREVIEW, getImagePreview);
 
-// Endpoint to get all images
+// Endpoint to get all routers
 imagesRouter.get(ApiEndpoints.IMAGES, getImagesAll);
 
 // Endpoint to imagesUploader new image
-imagesRouter.post(ApiEndpoints.UPLOAD, imageUploader().fields([{
-    name: Fields.Image, maxCount: 1
-}, {
-    name: Fields.Transformed, maxCount: 1
-}, {
-    name: Fields.History, maxCount: 1
-}]), storeImage);
+imagesRouter.post(ApiEndpoints.UPLOAD, [imageUploadSession, imageUploader, storeImage]);
 
 // Endpoint to delete image
 imagesRouter.delete(ApiEndpoints.IMAGE, deleteImage)

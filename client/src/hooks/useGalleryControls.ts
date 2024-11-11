@@ -14,7 +14,7 @@ type TControls = {
         selectedImage: ImageEntity
     },
     actions: {
-        handleSelected: (image: ImageModel) => () => void
+        handleSelect: (image: ImageModel) => () => void
     }
 }
 
@@ -40,7 +40,7 @@ export const useGalleryControls = (): TControls => {
         loadImages()
     }, [loadImages]);
 
-    const handleSelected = useCallback(
+    const handleSelect = useCallback(
         (image: ImageModel) => () => {
             setPreparedImage(image)
         }, [setPreparedImage]
@@ -78,7 +78,7 @@ export const useGalleryControls = (): TControls => {
             }
         },
         actions: {
-            handleSelected,
+            handleSelect,
         }
     }
 

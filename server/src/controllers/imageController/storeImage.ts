@@ -1,13 +1,9 @@
 import {Request, Response} from "express";
 import {ImageModel} from "../../../../shared/types/Image";
 import {responseErrorDocument} from "../errorController/resultErrorDocument";
-import {createUrlFromRoute} from "../../../../shared/utils/createUrlFromRoute";
-import {ApiConfig, ApiEndpoints} from "../../../../shared/config/api.config";
 import {Fields} from "../../../../shared/types/Fields";
-import {readHistoryFile} from "../../utils/readHistoryFile";
-
-const {BaseUrl} = ApiConfig
-
+import {getImageModelById} from "./getImageModelById";
+import {getImageUploadSession} from "../../middleware/imageUploadSession";
 
 export const storeImage = async (req: Request, res: Response<ImageModel | {
     message: string
@@ -20,28 +16,24 @@ export const storeImage = async (req: Request, res: Response<ImageModel | {
             [Fields.History]: [history]
         } = req.files
 
-        console.log(req.files)
-
         if (image && history && preview) {
-            const id = image.destination.split("/").pop();
 
-            if (id) {
-                res.status(200).json({
-                    id,
-                    url: BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE, {id}),
-                    filename: image.filename,
-                    history: await readHistoryFile(history.path)
-                });
+            const {imageUid} = getImageUploadSession(req)
 
+            if (imageUid) {
+                const model = await getImageModelById(imageUid);
+                if (model) {
+                    res.status(200).json(model);
+                } else {
+                    responseErrorDocument(res, 'File read error')
+                }
             } else {
                 responseErrorDocument(res, 'File upload error')
             }
-
         } else {
-            responseErrorDocument(res, 'No file uploaded')
+            responseErrorDocument(res, 'Not all files uploaded')
         }
-
     } else {
-        responseErrorDocument(res, 'Wrong files uploaded')
+        responseErrorDocument(res, 'No files uploaded')
     }
 };
