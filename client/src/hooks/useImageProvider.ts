@@ -2,7 +2,8 @@ import {useContext} from "react";
 import {useImageProviderActions} from "./useImageProviderActions.ts";
 import {ImageContext} from "../context";
 
-export const useImageContext = () => {
+// make it private
+const useImageContext = () => {
     const context = useContext(ImageContext);
 
     if (!context) {
@@ -16,7 +17,7 @@ export const useImageContext = () => {
 export const useImageProvider = () => {
     const {dispatch, state, api} = useImageContext();
 
-    const actions = useImageProviderActions()
+    const actions = useImageProviderActions(dispatch)
 
     return {
         dispatch, state, api,

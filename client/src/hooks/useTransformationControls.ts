@@ -118,7 +118,6 @@ export const useTransformationControls = () => {
             },
 
             confirmationChangeDialog: {
-
                 isOpen: changeFlowDialog.isOpen,
                 onConfirm: handleConfirmTransformation,
                 onCancel: handleCancelTransformation

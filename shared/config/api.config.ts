@@ -19,11 +19,17 @@ export const ApiConfig: TApiConfig = {
 }
 
 export enum ApiEndpoints {
+    ROOT = "/",
+
     UPLOAD = "/upload",
     IMAGE = "/image/:id",
     IMAGE_PREVIEW = "/image/:id/preview",
+    IMAGE_MODEL = "/image/:id/model",
     REMOVE = "/image/:id",
     IMAGES = "/images",
+
+    HEALTH_CHECK = "/healthcheck",
+
 }
 
 export const AcceptedExtensions = [

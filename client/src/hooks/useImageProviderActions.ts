@@ -1,10 +1,8 @@
 import {useCallback} from "react";
 import {AsyncAction, AsyncActionKeys, AsyncStatus} from "../entities";
-import {useImageContext} from "./useImageProvider.ts";
-import {ImageActionType} from "../state";
+import {ImageAction, ImageActionType} from "../state";
 
-export const useImageProviderActions = () => {
-    const {dispatch} = useImageContext();
+export const useImageProviderActions = (dispatch: React.Dispatch<ImageAction>) => {
 
     const setLoading = useCallback((payload: AsyncAction) => {
         dispatch({type: ImageActionType.SET_LOADING, payload});
