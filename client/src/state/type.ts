@@ -1,5 +1,5 @@
 import {ImageEntity, ImageModel} from "../../../shared/types/Image.ts";
-import {AsyncStatus, Transformation} from "../entities";
+import {AsyncActionKeys, AsyncStatus, Transformation} from "../entities";
 
 export type ImageState = {
     gallery: ImageModel[];
@@ -8,6 +8,6 @@ export type ImageState = {
     transformationHistory: Transformation[];
     selectedTransformation: number;
     error: string | null;
-    loading: Record<string, AsyncStatus | null>;
+    loading: Partial<Record<AsyncActionKeys, AsyncStatus | null>>;
 };
 
