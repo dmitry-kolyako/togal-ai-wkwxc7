@@ -18,7 +18,8 @@ export const imageReducer = (state: ImageState, action: ImageAction): ImageState
             };
         case ImageActionType.SELECT_IMAGE:
             return {
-                ...state, selectedImage: action.payload,
+                ...state,
+                selectedImage: action.payload,
                 transformedImage: null,
                 transformationHistory: action.payload?.history || [],
                 selectedTransformation: (action.payload?.history || []).length - 1

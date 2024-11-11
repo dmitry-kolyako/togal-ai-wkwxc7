@@ -21,9 +21,9 @@ export const useImageInput = () => {
     const confirmInputFile = useCallback(() => {
         if (selectedFile) {
             setSelectedImage({
-                id: null,
-                url: null,
-                preview_url: null,
+                id: '',
+                url: '',
+                preview_url: '',
                 file: selectedFile,
                 filename: selectedFile.name,
                 history: []
@@ -42,7 +42,8 @@ export const useImageInput = () => {
     const handleFileSelect = (file: File | null) => {
         setError(null);
         setSelectedFile(null);
-        const isAccepted = AcceptedFileTypes.includes(file?.type.toLowerCase());
+        const fileType = file?.type.toLowerCase() || '';
+        const isAccepted = AcceptedFileTypes.includes(fileType);
         if (file && isAccepted) {
             setSelectedFile(file)
 

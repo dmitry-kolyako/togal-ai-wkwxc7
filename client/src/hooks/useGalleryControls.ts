@@ -11,7 +11,7 @@ import {TWithConfirmationDialog} from "../components/ConfirmationDialog/Confirma
 type TControls = {
     state: TWithConfirmationDialog & {
         gallery: ImageCollection
-        selectedImage: ImageEntity
+        selectedImage: ImageEntity | null
     },
     actions: {
         handleSelect: (image: ImageModel) => () => void

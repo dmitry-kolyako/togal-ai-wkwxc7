@@ -1,18 +1,11 @@
 {
   "compilerOptions": {
     "rootDir": "."
-    // Set to the root of your project
   },
   "files": [],
   "references": [
-    {
-      "path": "./client"
-    },
-    {
-      "path": "./server"
-    },
-    {
-      "path": "./shared"
-    }
+    { "path": "./client" },
+    { "path": "./server" },
+    { "path": "./shared" }
   ]
 }

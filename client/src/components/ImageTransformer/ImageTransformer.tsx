@@ -68,7 +68,7 @@ export const ImageTransformer: React.FC<Props> = ({previewSource, transformation
                     w: Math.min(CanvasSize.width, newSize.width),
                     h: Math.min(CanvasSize.height, newSize.height),
                 }).then(
-                    blob => onFinishTransform(new File([blob], previewSource.filename, {
+                    blob => blob && onFinishTransform(new File([blob], previewSource.filename, {
                         type: previewSource.type
                     }))
                 )

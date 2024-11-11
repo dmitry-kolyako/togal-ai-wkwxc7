@@ -46,8 +46,10 @@ export const useTransformationControls = () => {
         changeFlowDialog.close()
     };
     const handleApplyTransformation = useCallback(() => {
-        addTransformation(transformationItem)
-        prepareTransformation(null)
+        if (transformationItem) {
+            addTransformation(transformationItem)
+            prepareTransformation(null)
+        }
     }, [addTransformation, transformationItem, prepareTransformation])
 
 

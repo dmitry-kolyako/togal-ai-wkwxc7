@@ -14,7 +14,7 @@ export class ApiServiceV1 {
     }
 
     // Singleton pattern to ensure a single instance of the service
-    public static getInstance(config?: TApiConfig): ApiServiceV1 {
+    public static getInstance(config: TApiConfig): ApiServiceV1 {
         if (!ApiServiceV1.instance) {
             ApiServiceV1.instance = new ApiServiceV1(config);
         }

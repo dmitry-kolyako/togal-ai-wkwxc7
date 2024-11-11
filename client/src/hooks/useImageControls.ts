@@ -28,7 +28,7 @@ export const useImageControls = () => {
         dispatch({type: ImageActionType.SELECT_IMAGE, payload});
     }, [dispatch])
 
-    const {previewSource} = useImagePreviewSource(selectedImage?.file)
+    const {previewSource} = useImagePreviewSource(selectedImage?.file || null)
 
     const resetSelectedImage = useCallback(() => setSelectedImage(null), [setSelectedImage])
 

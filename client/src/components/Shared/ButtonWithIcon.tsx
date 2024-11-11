@@ -13,7 +13,9 @@ interface ButtonWithIconProps {
     ariaLabel?: string;
 }
 
-const StyledButton = styled(Button)<{ position?: 'left' | 'right', fullWidth: boolean }>`
+const StyledButton = styled(Button).withConfig({
+    shouldForwardProp: (prop) => !['position', 'fullWidth'].includes(prop),
+})<{ position?: 'left' | 'right', fullWidth?: boolean }>`
     display: inline-flex;
     align-items: center;
     padding: 8px 10px 8px 8px;
@@ -34,7 +36,7 @@ const StyledButton = styled(Button)<{ position?: 'left' | 'right', fullWidth: bo
 
 
     ${({fullWidth}) => (
-        fullWidth && css`width: 100%`
+            fullWidth && css`width: 100%`
     )};
 
     svg, .material-icons {

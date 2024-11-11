@@ -3,5 +3,5 @@
     "rootDir": ".",
     "strict": true
   },
-  "include": ["shared"]
+  "include": ["./shared"]
 }

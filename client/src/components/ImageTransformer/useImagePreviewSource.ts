@@ -10,7 +10,7 @@ export type TWithPreviewSource = {
     previewSource: TPreviewSource;
 }
 
-export const useImagePreviewSource = (file: File): TWithPreviewSource => {
+export const useImagePreviewSource = (file: File | null): TWithPreviewSource => {
     const [previewSource, setPreviewSource] = useState<TPreviewSource>(null);
 
     useEffect(() => {

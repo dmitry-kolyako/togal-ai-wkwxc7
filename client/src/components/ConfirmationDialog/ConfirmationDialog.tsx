@@ -11,7 +11,7 @@ import {useOnEnter, useOnEscape} from "../../hooks";
 export type ConfirmationDialogProps = {
     title?: string;
     isOpen: boolean
-    message: string;
+    message: string | null;
     onConfirm: () => void;
     onCancel: () => void;
 

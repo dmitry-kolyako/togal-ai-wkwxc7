@@ -2,10 +2,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Layer} from "../../config/theme.ts";
-
-export enum MessageType {
-    SUCCESS, ERROR, WARNING
-}
+import {MessageType} from "./CornerMessage.types.ts";
 
 export type CornerMessageProps = {
     message: string;
@@ -40,7 +37,9 @@ export const CornerMessage: React.FC<CornerMessageProps> = ({
 };
 
 
-const MessageContainer = styled.div<{ type: MessageType }>`
+const MessageContainer = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['type'].includes(prop),
+})<{ type?: MessageType }>`
     position: fixed;
     top: 1rem;
     right: 1rem;
