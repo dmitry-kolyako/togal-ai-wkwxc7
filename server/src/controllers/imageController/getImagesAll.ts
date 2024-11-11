@@ -1,9 +1,13 @@
 import fs from "fs";
+import path from "path";
 import {Request, Response} from "express";
 import {UPLOADS_ROOT} from "../../middleware/imageUploadMiddleware";
 import {AllowedTypesRegExp, ApiConfig, ApiEndpoints} from "../../../../shared/config/api.config";
 import {createUrlFromRoute} from "../../../../shared/utils/createUrlFromRoute";
 import {ImageModel} from "../../../../shared/types/Image";
+import {readHistoryFile} from "../../utils/readHistoryFile";
+import {readAllowedImages} from "../../utils/readAllowedImages";
+
 
 const {BaseUrl} = ApiConfig
 
@@ -14,14 +18,22 @@ export const getImagesAll = async (req: Request, res: Response) => {
             async (mapHandler, id) => {
                 const map = await mapHandler
                 const imageDir = `${UPLOADS_ROOT}/${id}`;
-                const files = await fs.promises.readdir(imageDir);
+                const [filename] = await readAllowedImages(imageDir);
 
-                const [filename] = files.filter((file) => AllowedTypesRegExp.test(file));
                 if (filename) {
+                    const historyPath = path.join(imageDir, ApiConfig.HistoryFileName);
+                    const history = await readHistoryFile(historyPath);
+                    const url = BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE, {id});
+                    const preview_url = BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE_PREVIEW, {id});
+
+                    console.log({ history, historyPath, imageDir, url })
+
                     map.push({
                         id,
                         filename,
-                        url: BaseUrl + createUrlFromRoute(ApiEndpoints.GET, {id})
+                        url,
+                        preview_url,
+                        history
                     })
                 }
                 return map

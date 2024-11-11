@@ -1,8 +1,8 @@
 import {useCallback, useMemo} from "react";
 import {useImageProvider} from "./useImageProvider.ts";
 import {ImageModel} from "../../../shared/types/Image.ts";
-import {AsyncActionKeys} from "../entities";
-import {ImageActionType} from "../state/actions.ts";
+import {AsyncActionKeys, TransformationHistory} from "../entities";
+import {ImageActionType} from "../state";
 
 const UploadKey = AsyncActionKeys.UPLOAD_IMAGE,
     LoadingKey = AsyncActionKeys.GET_GALLERY,
@@ -42,11 +42,12 @@ export const useImageServiceApi = () => {
         }
     }, [dispatch, ApiService, catchError, trackRemove])
 
-    const uploadImage = useCallback(async (file: File) => {
+    const uploadImage = useCallback(async (original: File, transformed: File, history: TransformationHistory = []) => {
         try {
-            if (!file) throw new Error('No file provided');
+            if (!original || !transformed) throw new Error('No file provided');
 
-            const uploadedImage = await trackUpload(ApiService.uploadImage(file))
+            const request = ApiService.uploadImage(original, transformed, history);
+            const uploadedImage = await trackUpload(request)
 
             // If successful, update the gallery
             dispatch({type: ImageActionType.ADD_TO_GALLERY, payload: uploadedImage});

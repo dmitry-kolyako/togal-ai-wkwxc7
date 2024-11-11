@@ -23,8 +23,9 @@ export const useImageInput = () => {
             setSelectedImage({
                 id: null,
                 url: null,
-                filename: selectedFile.name,
                 file: selectedFile,
+                filename: selectedFile.name,
+                history: []
             });
             resetFileInput()
         }
@@ -78,7 +79,5 @@ export const useImageInput = () => {
             onConfirm: confirmInputFile,
             onCancel: resetFileInput
         }
-
     }
-
 }

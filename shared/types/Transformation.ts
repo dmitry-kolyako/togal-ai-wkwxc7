@@ -11,3 +11,5 @@ export type Transformation = {
     type: TransformationType;
     value?: string;
 };
+
+export type TransformationHistory = Array<Transformation>

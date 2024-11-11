@@ -1,14 +1,16 @@
 import {ImageCollection, ImageModel, ImageModelId} from "../../../shared/types/Image.ts";
 import {ApiEndpoints, TApiConfig} from "../../../shared/config/api.config.ts";
 import {createUrlFromRoute} from "../../../shared/utils/createUrlFromRoute.ts";
+import {TransformationHistory} from "../entities";
+import {Fields} from "../../../shared/types/Fields.ts";
 
 export class ApiServiceV1 {
     private static instance: ApiServiceV1;
 
-    private baseUrl: string
+    private config: TApiConfig
 
-    private constructor({BaseUrl}: TApiConfig) {
-        this.baseUrl = BaseUrl;
+    private constructor(config: TApiConfig) {
+        this.config = config;
     }
 
     // Singleton pattern to ensure a single instance of the service
@@ -20,7 +22,7 @@ export class ApiServiceV1 {
     }
 
     private endpoint(path: string) {
-        return this.baseUrl + path;
+        return this.config.BaseUrl + path;
     }
 
     private async httpGet(path: string, init?: RequestInit) {
@@ -45,16 +47,21 @@ export class ApiServiceV1 {
     }
 
     // Upload image to the backend
-    public async uploadImage(file: File): Promise<ImageModel> {
+    public async uploadImage(original: File, transformed: File, history: TransformationHistory): Promise<ImageModel> {
+        const historyBlob = new Blob([JSON.stringify(history)]);
+        const historyFile = new File([historyBlob], this.config.HistoryFileName, {type: 'application/json'});
+
         const formData = new FormData();
-        formData.append('image', file);
+
+        formData.append(Fields.Image, original, original.name);
+        formData.append(Fields.Transformed, transformed, transformed.name);
+        formData.append(Fields.History, historyFile, historyFile.name);
 
         try {
             const response = await this.httpPost(ApiEndpoints.UPLOAD, {body: formData})
             if (!response.ok) {
                 throw new Error(`Failed to upload image: ${response.statusText}`);
             }
-
             return response.json();
         } catch (error) {
             console.error('Error uploading image:', error);

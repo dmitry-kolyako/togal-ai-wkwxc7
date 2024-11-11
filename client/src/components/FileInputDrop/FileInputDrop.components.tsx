@@ -9,7 +9,12 @@ export const FileInputDropComponents = styled('div').withConfig({
     text-align: center;
     cursor: pointer;
     margin-bottom: 10px;
-
+    
+    &:hover {
+        border-color: #4a90e2;
+        background-color: #f0f8ff;
+    }
+    
     ${({ isDragging }) =>
     isDragging &&
     css`

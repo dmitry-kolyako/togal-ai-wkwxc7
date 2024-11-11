@@ -1,5 +1,6 @@
 // Backdrop with semi-transparent and blur effect
 import styled from "styled-components";
+import {Layer} from "../../config/theme.ts";
 
 export const Backdrop = styled.div.withConfig({
     shouldForwardProp: (prop) => !['isOpen'].includes(prop),
@@ -12,6 +13,7 @@ export const Backdrop = styled.div.withConfig({
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     display: ${({isOpen}) => (isOpen ? 'block' : 'none')};
+    z-index: ${Layer.Modal};
 `;
 
 // Centered modal container
@@ -26,4 +28,5 @@ export const ModalContainer = styled.div`
     max-width: 500px;
     width: 100%;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: ${Layer.Modal + 1};
 `;

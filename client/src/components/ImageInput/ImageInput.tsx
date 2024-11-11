@@ -42,7 +42,7 @@ export const ImageInput: React.FC = () => {
                                  accept={AcceptedFileInput}
                                  onChange={handleFileChange}
                                  ref={fileInputRef}/>
-                <p>Drag & drop an image here, or click to select one.</p>
+                <p><u>Drag</u> & <u>drop</u> an image here, or <u>click</u> to select one.</p>
             </FileInputDropInput>
             {error && <ErrorMessage>{error}</ErrorMessage>}
             {selectedImage && <ClearButton onClick={

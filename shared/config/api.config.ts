@@ -6,17 +6,22 @@ export type TApiConfig = {
     ServerHost: string
     ServerPort: number
     BaseUrl: string
+
+    HistoryFileName: string
 }
 
 export const ApiConfig: TApiConfig = {
     ServerHost,
     ServerPort,
     BaseUrl,
+
+    HistoryFileName: 'history.json',
 }
 
 export enum ApiEndpoints {
     UPLOAD = "/upload",
-    GET = "/image/:id",
+    IMAGE = "/image/:id",
+    IMAGE_PREVIEW = "/image/:id/preview",
     REMOVE = "/image/:id",
     IMAGES = "/images",
 }

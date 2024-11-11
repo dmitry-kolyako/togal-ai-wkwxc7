@@ -8,13 +8,13 @@ type ModalProps = {
     children: ReactNode;
 }
 
-export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
+export const Modal: FC<ModalProps> = ({isOpen, onClose, children}) => {
     const handleClick = useCallback(() => onClose && onClose(), [onClose])
     if (!isOpen) return null;
 
     return (
         <>
-            <Backdrop isOpen={isOpen} onClick={handleClick} />
+            <Backdrop isOpen={isOpen} onClick={handleClick}/>
             <ModalContainer>
                 {children}
             </ModalContainer>

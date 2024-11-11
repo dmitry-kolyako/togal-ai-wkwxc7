@@ -2,6 +2,7 @@
 import React, {PropsWithChildren} from 'react';
 import styled, {css} from 'styled-components';
 import {Button} from "./Button.tsx";
+import {Breakpoint} from "../../config/theme.ts";
 
 interface ButtonWithIconProps {
     disabled?: boolean;
@@ -33,13 +34,19 @@ const StyledButton = styled(Button)<{ position?: 'left' | 'right', fullWidth: bo
 
 
     ${({fullWidth}) => (
-            fullWidth && css`width: 100%`
+        fullWidth && css`width: 100%`
     )};
 
     svg, .material-icons {
         fill: currentColor; // Inherit color for flexibility
         //     font-size: 1.2em;
         margin: ${({position}) => (position === 'right' ? '0 0 0 4px' : '0 4px 0 0')};
+    }
+
+    @media (max-width: ${Breakpoint.Mobile}px) {
+        & > span {
+            display: none;
+        }
     }
 `;
 

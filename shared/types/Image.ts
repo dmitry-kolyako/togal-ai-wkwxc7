@@ -1,9 +1,13 @@
+import {TransformationHistory} from "./Transformation";
+
 export type ImageModelId = string
 
 export type ImageModel = {
     id: ImageModelId;
-    url: string;
     filename: string;
+    history: TransformationHistory
+    url: string;
+    preview_url: string;
 };
 
 export type ImageCollection = Array<ImageModel>

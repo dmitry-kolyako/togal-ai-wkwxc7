@@ -4,12 +4,16 @@ import {ImageEntity} from "../entities";
 import {ImageActionType} from "../state";
 import {useImageServiceApi} from "./useImageServiceApi.ts";
 import {useImagePreviewSource} from "../components/ImageTransformer/useImagePreviewSource.ts";
+import {useTransformationControls} from "./useTransformationControls.ts";
 
 export const useImageControls = () => {
     const {
         dispatch,
         state: {transformedImage, selectedImage, selectedTransformation},
     } = useImageProvider();
+    const {
+        state: {transformationHistory},
+    } = useTransformationControls();
 
     const {
         actions: {uploadImage, removeImage}
@@ -28,10 +32,10 @@ export const useImageControls = () => {
     const resetSelectedImage = useCallback(() => setSelectedImage(null), [setSelectedImage])
 
     const handleSave = useCallback(async () => {
-        if (transformedImage) {
-            await uploadImage(transformedImage)
+        if (selectedImage && transformedImage) {
+            await uploadImage(selectedImage.file, transformedImage, transformationHistory)
         }
-    }, [uploadImage, transformedImage])
+    }, [uploadImage, selectedImage, transformedImage, transformationHistory])
 
     const handleRemove = useCallback(async () => {
         if (selectedImage) {

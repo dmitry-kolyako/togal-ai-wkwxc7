@@ -17,7 +17,12 @@ export const imageReducer = (state: ImageState, action: ImageAction): ImageState
                 ...state, gallery: state.gallery.filter(g => g.id !== action.payload)
             };
         case ImageActionType.SELECT_IMAGE:
-            return {...state, selectedImage: action.payload, transformedImage: null, transformationHistory: []};
+            return {
+                ...state, selectedImage: action.payload,
+                transformedImage: null,
+                transformationHistory: action.payload?.history || [],
+                selectedTransformation: (action.payload?.history || []).length - 1
+            };
 
         case ImageActionType.SET_TRANSFORMED_IMAGE:
             return {...state, transformedImage: action.payload};
@@ -29,6 +34,7 @@ export const imageReducer = (state: ImageState, action: ImageAction): ImageState
             };
         case ImageActionType.RESET_TRANSFORMATIONS:
             return {...state, transformationHistory: action.payload, selectedTransformation: action.payload.length - 1};
+
         case ImageActionType.SELECT_TRANSFORMATION:
             return {...state, selectedTransformation: action.payload};
 

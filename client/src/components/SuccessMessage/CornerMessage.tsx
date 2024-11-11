@@ -1,6 +1,7 @@
 // CornerMessage.tsx
 import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
+import {Layer} from "../../config/theme.ts";
 
 export enum MessageType {
     SUCCESS, ERROR, WARNING
@@ -57,7 +58,7 @@ const MessageContainer = styled.div<{ type: MessageType }>`
     align-items: center;
     gap: 1rem;
     max-width: 300px;
-    z-index: 1000;
+    z-index: ${Layer.Message};
     animation: fadeIn 0.3s ease-out;
 
     @keyframes fadeIn {
