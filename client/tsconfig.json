@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     /* Bundler mode */
     "moduleResolution": "Bundler",
+    "esModuleInterop": true,
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -25,11 +27,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-//  "references": [
-//    { "path": "./tsconfig.app.json" },
-//    { "path": "./tsconfig.node.json" },
-//    { "path": "./../shared" }
-//  ],
   "include": [
     "./src",
     "../shared"
