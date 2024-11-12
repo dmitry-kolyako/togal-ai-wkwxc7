@@ -11,7 +11,9 @@ const UploadKey = AsyncActionKeys.UPLOAD_IMAGE,
 
 export const useImageServiceApi = () => {
     const {
-        dispatch, state: {
+        dispatch,
+        state: {
+            selectedImage,
             loading: {
                 [UploadKey]: statusUpload,
                 [RemoveKey]: statusRemoving,
@@ -34,13 +36,16 @@ export const useImageServiceApi = () => {
 
             // If successful, update the gallery
             dispatch({type: ImageActionType.REMOVE_FROM_GALLERY, payload: id});
-            dispatch({type: ImageActionType.SELECT_IMAGE, payload: null});
+
+            if (selectedImage?.id === id) {
+                dispatch({type: ImageActionType.SELECT_IMAGE, payload: null});
+            }
 
         } catch (error) {
             catchError(error)
 
         }
-    }, [dispatch, ApiService, catchError, trackRemove])
+    }, [dispatch, ApiService, catchError, trackRemove, selectedImage])
 
     const uploadImage = useCallback(async (original: File, transformed: File, history: TransformationHistory = []) => {
         try {

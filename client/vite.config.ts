@@ -10,9 +10,14 @@ export default defineConfig({
         include: "**/*.svg",
     })],
 
+    server: {
+        open: true,
+    },
+
     test: {
-        environment: 'jsdom', // Use jsdom for simulating the DOM in the browser
         globals: true,         // Enable Jest-style global variables like `describe`, `it`, etc.
+        environment: 'jsdom', // Use jsdom for simulating the DOM in the browser
         setupFiles: ['./test/setupTests.ts'],  // Add a setup file for additional setup if needed
+        mockReset: true,
     },
 })
