@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {createUid} from "../utils/createUid";
+import {createUid} from "../../../shared/utils/createUid";
 
 const UPLOAD_SESSION = String('__uploadSession_' + createUid());
 

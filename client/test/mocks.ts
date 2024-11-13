@@ -3,6 +3,7 @@ import {ImageEntity, ImageModel} from "../../shared/types/Image";
 import {Transformation, TransformationType} from "../../shared/types/Transformation";
 import {ApiEndpoints, TApiConfig} from "../../shared/config/api.config.ts";
 import {createUrlFromRoute} from "../../shared/utils/createUrlFromRoute.ts";
+import {createUid} from "../../shared/utils/createUid.ts";
 
 export const mockApiConfig: TApiConfig = {
     ServerPort: 3000,
@@ -11,14 +12,14 @@ export const mockApiConfig: TApiConfig = {
     HistoryFileName: 'history.json',
 };
 
-const mockImageDirId = 'test-123'
+const mockId = createUid()
 
 export const mockImageModel: ImageModel = {
-    id: '1',
+    id: mockId,
     filename: 'test-image.jpg',
     history: [],
-    url: mockApiConfig.BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE, {id: mockImageDirId}),
-    preview_url: mockApiConfig.BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE_PREVIEW, {id: mockImageDirId}),
+    url: mockApiConfig.BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE, {id: mockId}),
+    preview_url: mockApiConfig.BaseUrl + createUrlFromRoute(ApiEndpoints.IMAGE_PREVIEW, {id: mockId}),
 };
 
 export const mockImageEntity: ImageEntity = {
@@ -31,3 +32,10 @@ export const mockTransformation: Transformation = {
 };
 
 export const mockTransformedFile = new File(['test'], 'transformed.jpg', {type: 'image/jpeg'})
+
+export const mockImageId = createUid()
+
+export const mockCanvas = document.createElement('canvas');
+
+export const mockBlobUrl = URL.createObjectURL(mockTransformedFile);
+
