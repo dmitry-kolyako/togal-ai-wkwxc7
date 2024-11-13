@@ -38,16 +38,16 @@ client-side operations.
 - **Git**: to pull the repo
 
 ### Setup
+- in `/client` run `npm install`
 ```bash
-
-cd ./client 
+cd ./client
 npm install
 ```
-- in `/client` run `npm install`
-
-
-- in `/client` run `npm install`
 - in `/server` run `npm install`
+```bash
+cd ./client
+npm install
+```
 
 ### Run
 
