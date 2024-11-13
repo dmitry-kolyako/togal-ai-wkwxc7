@@ -45,7 +45,7 @@ npm install
 ```
 - in `/server` run `npm install`
 ```bash
-cd ./client
+cd ./server
 npm install
 ```
 
